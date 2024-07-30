@@ -17,20 +17,20 @@ class Krit:
 
         fname = 'कृत्/{}.md'.format(self.उपदेश)
         ff = start_recording(fname)
-        record(ff, self.उपदेश, '-', '-')
+        record(fname, self.उपदेश, '-', '-')
 
-        self.it_lopa(ff)
+        self.it_lopa(fname)
 
         if len(self.इत्) > 0:
-            record(ff, self.प्रत्यय, 'तस्य लोपः', 'इत्संज्ञकस्य लोपः')
+            record(fname, self.प्रत्यय, 'तस्य लोपः', 'इत्संज्ञकस्य लोपः')
 
         if self.उच्चारण >= 0:
             self.remove_uchchaarana()
-            record(ff, self.प्रत्यय, '-', 'उच्चारणार्थकवर्णस्य लोप')
+            record(fname, self.प्रत्यय, '-', 'उच्चारणार्थकवर्णस्य लोप')
 
         del self.उच्चारण
 
-        self.get_prakaar(ff)
+        self.get_prakaar(fname)
 
         end_recording(ff)
 

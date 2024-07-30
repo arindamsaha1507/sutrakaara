@@ -166,7 +166,7 @@ class Dhaatu:
 
             # ii += 1
         
-        self.धातु = get_shabda(vv)
+        # self.धातु = get_shabda(vv)
 
     def idaagama(self, df):
 
