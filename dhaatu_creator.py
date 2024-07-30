@@ -19,7 +19,7 @@ class Dhaatu:
             df = pd.DataFrame(columns=['स्थिति', 'सूत्र', 'टिप्पणी'])
         
         row = {'स्थिति': self.उपदेश, 'सूत्र': '-', 'टिप्पणी': '-'}
-        df = df.append(row, ignore_index=True)
+        df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
 
         self.अर्थ = ' '.join(ll.split(' ')[2:-1])
         self.इत् = []

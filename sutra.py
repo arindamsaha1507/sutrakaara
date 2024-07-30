@@ -39,7 +39,7 @@ def post_processing(df, s, name, number, remarks):
     s = get_shabda(s)
     t = name + ' (' + number + ')'
     row = {'स्थिति': s, 'सूत्र': t, 'टिप्पणी': remarks}
-    df = df.append(row, ignore_index=True)
+    df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
     return df
 
 def उपदेशेऽजनुनासिक_इत्(df, anunaasika):

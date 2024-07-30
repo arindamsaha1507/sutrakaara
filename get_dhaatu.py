@@ -17,7 +17,7 @@ def get_dhaatu(query, find_unique=False):
         s = ff.read()
 
     s = s.split('\n')
-    
+
     return [Dhaatu(s[ii]) for ii in idx]
 
 
