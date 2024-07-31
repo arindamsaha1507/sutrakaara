@@ -1,5 +1,5 @@
 from pratyaahaara import expand_pratyahaara
-from sutra import *
+from sutra_bkp import *
 # from vaakya_sandhi import vaakya_sandhi
 from vinyaasa import get_shabda, get_vinyaasa
 

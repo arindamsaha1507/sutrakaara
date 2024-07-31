@@ -1,234 +1,202 @@
-import pandas as pd
-from varna import *
-from vinyaasa import *
-import pandas as pd
-from pratyaahaara import *
-from recorder import *
-from sutra import *
+"""Module to create Dhaatu objects from a list of Dhatus"""
+# pylint: disable=non-ascii-module-import
 
-class Dhaatu:
+from dataclasses import dataclass, field
 
-    def __init__(self, ll, df=None):
+from utils import Khanda, Prakriya, KhandaType
+from sutra import sutra_1_3_1, sutra_1_3_2, vartika_1_3_2, sutra_1_3_3, sutra_1_3_4
 
-        self.gana(ll)
-        self.उपदेश = ll.split(' ')[1]
-
-        fname = 'धातु/{}.csv'.format(self.उपदेश)
-
-        if df is None:
-            df = pd.DataFrame(columns=['स्थिति', 'सूत्र', 'टिप्पणी'])
-        
-        row = {'स्थिति': self.उपदेश, 'सूत्र': '-', 'टिप्पणी': '-'}
-        df = pd.concat([df, pd.DataFrame([row])], ignore_index=True)
-
-        self.अर्थ = ' '.join(ll.split(' ')[2:-1])
-        self.इत् = []
-
-        df, anudaatta, svarita = self.it_lopa(df)
-        df = self.pada_nirnaya(df, anudaatta, svarita)
-        df = self.idaagama(df)
-        df = self.praakritika(df)
-
-        df.to_csv(fname, index=False)
-
-    def __repr__(self):
-
-        return 'धातु : {} \nअर्थ : {} \nगण : {} \nपद : {}\nइडागम : {} \nउपदेश : {} \nइत् : {}'.format(self.धातु, self.अर्थ, self.गण, self.पद, self.इडागम, self.उपदेश, ' '.join(self.इत्))
-
-    def gana(self, ll):
-
-        d = {
-            '१': 'भ्वादि',
-            '२': 'अदादि',
-            '३': 'जुहोत्यादि',
-            '४': 'दिवादि',
-            '५': 'स्वादि',
-            '६': 'तुदादि',
-            '७': 'रुधादि',
-            '८': 'तनादि',
-            '९': 'क्र्यादि',
-            '१०': 'चुरादि'
-        }
-
-        self.क्रमाङ्क = ll.split(' ')[0]
-        self.गण = d[self.क्रमाङ्क.split('.')[0]]
-
-    def it_lopa(self, df):
-
-        vv = get_vinyaasa(self.उपदेश)
-
-        svarita = []
-        anudaatta = []
-        anunaasika = []
-
-        for ii in range(len(vv)):
-            if vv[ii] == '॑':
-                svarita.append(ii-1)
-            if vv[ii] == '॒':
-                anudaatta.append(ii-1)
-            if vv[ii] in anunaasika_svara:
-                anunaasika.append(ii)
+# import pandas as pd
+# from varna import *
+# from vinyaasa import *
+# from pratyaahaara import *
+# from recorder import *
+# from sutra import *
 
 
-        if len(anunaasika) > 0:
-            df, aa = उपदेशेऽजनुनासिक_इत्(df, anunaasika)
-            self.इत्.extend(aa)
-        
-        if vv[-1] in expand_pratyahaara('हल्'):
-            df, bb = हलन्त्यम्(df)
-            self.इत्.append(bb)
+GANAS = {
+    "१": "भ्वादि",
+    "२": "अदादि",
+    "३": "जुहोत्यादि",
+    "४": "दिवादि",
+    "५": "स्वादि",
+    "६": "तुदादि",
+    "७": "रुधादि",
+    "८": "तनादि",
+    "९": "क्र्यादि",
+    "१०": "चुरादि",
+}
 
-        if get_shabda(vv[:2]) in ['ञि', 'टु', 'डु']:
-            df, cc = आदिर्ञिटुडवः(df)
-            self.इत्.append(cc)
+@dataclass
+class Dhaatu(Khanda):
+    """Class to represent a Dhaatu"""
 
-        if len(self.इत्) > 0:
-            df = तस्य_लोपः(df,ii='dhaatu')
+    # pylint: disable=too-many-instance-attributes
 
-        return df, anudaatta, svarita
+    moola: str = field(default=None)
+    kramaanka: str = field(init=False)
+    gana: str = field(init=False)
+    upadesha: str = field(init=False)
+    artha: str = field(init=False)
+    dhaatu: str = field(init=False)
+    pada: str = field(init=False)
+    idaagama: str = field(init=False)
+    anudaatta_it: bool = field(default=False)
+    svarita_it: bool = field(default=False)
+    anudaatta_svara: bool = field(init=False, default=False)
 
-    def pada_nirnaya(self, df, anudaatta, svarita):
+    def __post_init__(self):
+        self.typ.append(KhandaType.DHAATU)
+        self.kramaanka = self.moola.split(" ", maxsplit=1)[0]
+        self.upadesha = self.moola.split(" ")[1]
+        self.artha = " ".join(self.moola.split(" ")[2:])
+        self.gana = GANAS[self.kramaanka.split(".")[0]]
 
-        if len(self.इत्) == 0:
-            df = शेषात्_कर्तरि_परस्मैपदम्(df)
-            self.पद = 'परस्मैपदी'
-        else:
-            if 'ञ्' in self.इत् or len(svarita) > 0:
-                df = स्वरितञितः_कर्त्रभिप्राये_क्रियाफले(df)
-                self.पद = 'उभयपदी'
-            elif 'ङ्' in self.इत् or len(anudaatta) > 0:
-                df = अनुदात्तङित_आत्मनेपदम्(df)
-                self.पद = 'आत्मनेपदी'
-            else:
-                df = शेषात्_कर्तरि_परस्मैपदम्(df)
-                self.पद = 'परस्मैपदी'
+        self.roopa = self.upadesha
 
-        self.धातु = get_shabda(get_sthiti(df))
-        return df
+    def __repr__(self) -> str:
+        return super().__repr__()
 
-        # print(df)
-        # print(self.इत्)
+    def add_dhaatu(self, prakriya: Prakriya):
+        """Add the Dhaatu to the Prakriya"""
 
-        # if vv[-1] in vyanjana and vv[-1] != 'र्':
-        #     self.इत्.append(vv[-1])
-        #     record(ff, vv, 'हलन्त्यम्', '{}-इत्यस्य इत्संज्ञा'.format(vv[-1]))
-        #     if vv[-1] == 'ञ्':
-        #         self.पद = "उभयपदी"
-        #         record(ff, vv, 'स्वरितञितः कर्त्रभिप्राये क्रियाफले', 'इति उभयपदम्')
-        #     if vv[-1] == 'ङ्':
-        #         self.पद = "आत्मनेपदी"
-        #         record(ff, vv, 'अनुदात्तङित आत्मनेपदम्', 'इति आत्मनेपदम्')
-        #     del vv[-1]
+        if prakriya.length > 0:
+            raise ValueError("The Prakriya is not empty")
 
-        # if get_shabda(vv[:2]) in ['ञि', 'टु', 'डु']:
-        #     record(ff, vv, 'आदिर्ञिटुडवः', '{}-इत्यस्य इत्संज्ञा'.format(get_shabda(vv[:2])))
-        #     self.इत्.append(get_shabda(vv[:2]))
-        #     del vv[:2]
-        
-        # ii = 0
+        sutra_1_3_1(prakriya, self)
 
-        # while ii < len(vv):
-        #     if vv[ii] in anunaasika_svara:
+    def identify_it(self, prakriya: Prakriya):
+        """Identify the It of the Dhaatu"""
 
-        #         if vv[ii] == 'इँ':
-        #             if (len(vv) == ii+2 and vv[ii+1] == 'र्') or (len(vv) == ii+3 and vv[ii+2] == 'र्'):
-        #                 self.इत्.append('इर्')
-        #                 record(ff, vv, 'इँर इत्संज्ञा वाच्या (वा)', '{}-इत्यस्य इत्संज्ञा'.format('इर्'))
-        #                 del vv[ii]
-        #                 del vv[-1]
-    
-        #             else:
-        #                 self.इत्.append('इ')
-        #                 record(ff, vv, 'उपदेशेऽजनुनासिक इत्', '{}-इत्यस्य इत्संज्ञा'.format(get_shabda(vv[ii])))
-        #                 del vv[ii]
+        vartika_1_3_2(prakriya)
+        sutra_1_3_3(prakriya)
+        sutra_1_3_2(prakriya)
+        sutra_1_3_4(prakriya)
 
-        #         else:
-        #             self.इत्.append(anunaasika_svara_to_svara[vv[ii]])
-        #             record(ff, vv, 'उपदेशेऽजनुनासिक इत्', '{}-इत्यस्य इत्संज्ञा'.format(get_shabda(vv[ii])))
-        #             del vv[ii]
+    #     # fname = f'धातु/{self.upadesha}.csv'
+    #     # row = {'स्थिति': self.upadesha, 'सूत्र': '-', 'टिप्पणी': '-'}
+    #     # self.df = pd.concat([self.df, pd.DataFrame([row])], ignore_index=True)
 
-        #         if ii >= len(vv):
-        #             self.पद = 'परस्मैपदी'
-        #             record(ff, self.उपदेश, 'शेषात् कर्तरि परस्मैपदम्', 'इति परस्मैपदम्')
-        #         elif vv[ii] == '॒':
-        #             self.पद = 'आत्मनेपदी'
-        #             record(ff, self.उपदेश, 'अनुदात्तङित आत्मनेपदम्', 'इति आत्मनेपदम्')
-        #             del vv[ii]
-        #         elif vv[ii] == '॑':
-        #             self.पद = 'उभयपदी'
-        #             record(ff, self.उपदेश, 'स्वरितञितः कर्त्रभिप्राये क्रियाफले', 'इति उभयपदम्')
-        #             del vv[ii]
-        #         else:
-        #             self.पद = 'परस्मैपदी'
-        #             record(ff, vv, 'शेषात् कर्तरि परस्मैपदम्', 'इति परस्मैपदम्')
+    #     # self.df, anudaatta, svarita = self.it_lopa()
+    #     # self.df = self.pada_nirnaya(anudaatta, svarita)
+    #     # self.df = self.get_idaagama()
+    #     # self.df = self.praakritika()
 
-            
+    #     # self.df.to_csv(fname, index=False)
 
-            # ii += 1
-        
-        # self.धातु = get_shabda(vv)
+    # def __repr__(self):
+    #     return f'धातु : {self.dhaatu} \nअर्थ : {self.artha} \nगण : {self.gana} \nपद : {self.pada}\nइडागम : {self.idaagama} \nउपदेश : {self.upadesha} \nइत् : {" ".join(self.it)}'
 
-    def idaagama(self, df):
+    # def get_gana(self):
+    #     d = {
+    #         "१": "भ्वादि",
+    #         "२": "अदादि",
+    #         "३": "जुहोत्यादि",
+    #         "४": "दिवादि",
+    #         "५": "स्वादि",
+    #         "६": "तुदादि",
+    #         "७": "रुधादि",
+    #         "८": "तनादि",
+    #         "९": "क्र्यादि",
+    #         "१०": "चुरादि",
+    #     }
 
-        vv = get_vinyaasa(self.धातु)
+    #     self.gana = d[self.kramaanka.split(".")[0]]
 
-        cc = len([x for x in vv if x in svara])
+    # def it_lopa(self):
+    #     vv = get_vinyaasa(self.upadesha)
+    #     svarita = []
+    #     anudaatta = []
+    #     anunaasika = []
 
-        if '॒' in vv and cc == 1:
-            df = एकाच_उपदेशेऽनुदात्तात्(df)
-            self.इडागम = 'अनिट्'
-            self.धातु = get_shabda(get_sthiti(df))
-        
-        elif 'ऊ' in self.इत्:
-            df = स्वरतिसूतिसूयतिधूञूदितो_वा(df)
-            self.इडागम = 'वेट्'
+    #     for ii in range(len(vv)):
+    #         if vv[ii] == '॑':
+    #             svarita.append(ii-1)
+    #         if vv[ii] == '॒':
+    #             anudaatta.append(ii-1)
+    #         if vv[ii] in anunaasika_svara:
+    #             anunaasika.append(ii)
 
-        else:
-            self.इडागम = 'सेट्'
+    #     if len(anunaasika) > 0:
+    #         self.df, aa = उपदेशेऽजनुनासिक_इत्(self.df, anunaasika)
+    #         self.it.extend(aa)
 
-        return df
+    #     if vv[-1] in expand_pratyahaara('हल्'):
+    #         self.df, bb = हलन्त्यम्(self.df)
+    #         self.it.append(bb)
 
-    def praakritika(self, df):
+    #     if get_shabda(vv[:2]) in ['ञि', 'टु', 'डु']:
+    #         self.df, cc = आदिर्ञिटुडवः(self.df)
+    #         self.it.append(cc)
 
-        vv = get_vinyaasa(self.धातु)
+    #     if len(self.it) > 0:
+    #         self.df = तस्य_लोपः(self.df, ii='dhaatu')
 
-        if vv[0] == 'ष्':
-            df = धात्वादेः_षः_सः(df)
-        elif vv[0] == 'ण्':
-            df = णो_नः(df)
+    #     return self.df, anudaatta, svarita
 
-        if 'इ' in self.इत्:
+    # def pada_nirnaya(self, anudaatta, svarita):
+    #     if len(self.it) == 0:
+    #         self.df = शेषात्_कर्तरि_परस्मैपदम्(self.df)
+    #         self.pada = 'परस्मैपदी'
+    #     else:
+    #         if 'ञ्' in self.it or len(svarita) > 0:
+    #             self.df = स्वरितञितः_कर्त्रभिप्राये_क्रियाफले(self.df)
+    #             self.pada = 'उभयपदी'
+    #         elif 'ङ्' in self.it or len(anudaatta) > 0:
+    #             self.df = अनुदात्तङित_आत्मनेपदम्(self.df)
+    #             self.pada = 'आत्मनेपदी'
+    #         else:
+    #             self.df = शेषात्_कर्तरि_परस्मैपदम्(self.df)
+    #             self.pada = 'परस्मैपदी'
 
-            df, jj = इदितो_नुम्_धातोः(df)
+    #     self.dhaatu = get_shabda(get_sthiti(self.df))
+    #     return self.df
 
-            vv = get_vinyaasa(get_sthiti(df))
+    # def get_idaagama(self):
+    #     vv = get_vinyaasa(self.dhaatu)
+    #     cc = len([x for x in vv if x in svara])
 
-            if vv[jj+2] in expand_pratyahaara('झल्'):
+    #     if '॒' in vv and cc == 1:
+    #         self.df = एकाच_उपदेशेऽनुदात्तात्(self.df)
+    #         self.idaagama = 'अनिट्'
+    #         self.dhaatu = get_shabda(get_sthiti(self.df))
 
-                df = नश्चापदान्तस्य_झलि(df, jj+1)
-                df = अनुस्वारस्य_ययि_परसवर्णः(df, jj+1)
+    #     elif 'ऊ' in self.it:
+    #         self.df = स्वरतिसूतिसूयतिधूञूदितो_वा(self.df)
+    #         self.idaagama = 'वेट्'
+    #     else:
+    #         self.idaagama = 'सेट्'
 
-        self.धातु = get_shabda(get_sthiti(df))
-        
-        return df
+    #     return self.df
+
+    # def praakritika(self):
+    #     vv = get_vinyaasa(self.dhaatu)
+
+    #     if vv[0] == 'ष्':
+    #         self.df = धात्वादेः_षः_सः(self.df)
+    #     elif vv[0] == 'ण्':
+    #         self.df = णो_नः(self.df)
+
+    #     if 'इ' in self.it:
+    #         self.df, jj = इदितो_नुम्_धातोः(self.df)
+    #         vv = get_vinyaasa(get_sthiti(self.df))
+    #         if vv[jj+2] in expand_pratyahaara('झल्'):
+    #             self.df = नश्चापदान्तस्य_झलि(self.df, jj+1)
+    #             self.df = अनुस्वारस्य_ययि_परसवर्णः(self.df, jj+1)
+
+    #     self.dhaatu = get_shabda(get_sthiti(self.df))
+    #     return self.df
 
 
-if __name__ == '__main__':
+# if __name__ == "__main__":
+#     with open("धातुपाठ_मूल.txt", "r") as ff:
+#         s = ff.read()
 
-    # dd = Dhaatu('१.१८ ष्वदँ॒ आ॒स्वाद॑ने ।')
+#     s = s.split("\n")
+#     dhaatus = [Dhaatu(w) for w in s]
+#     d = [dhaatu.__dict__ for dhaatu in dhaatus]
 
-    # print(dd)
-
-    with open('धातुपाठ_मूल.txt', 'r') as ff:
-        s = ff.read()
-
-    s = s.split('\n')
-
-    d = [Dhaatu(w).__dict__ for w in s]
-
-    df = pd.DataFrame(d)
-    df = df.set_index('क्रमाङ्क')
-
-    print(df)
-
-    df.to_csv('धातु_1.csv')
+#     df = pd.DataFrame(d)
+#     df = df.set_index("क्रमाङ्क")
+#     print(df)
+#     df.to_csv("धातु_1.csv")

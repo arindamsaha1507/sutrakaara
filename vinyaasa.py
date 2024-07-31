@@ -1,6 +1,7 @@
 from varna import *
 
 def get_vinyaasa(shabda):
+    """Get the vinyaasa of a shabda."""
 
     vinyaasa = []
 
@@ -11,7 +12,16 @@ def get_vinyaasa(shabda):
         x = shabda[i]
         
         if x in svara:
-            vinyaasa.append(x)
+
+            if i + 1 < len(shabda):
+                if shabda[i+1] in ['ँ']:
+                    vinyaasa.append(x+'ँ')
+                else:
+                    vinyaasa.append(x)
+            else:
+                vinyaasa.append(x)
+
+
         elif x in vyanjana_with_akaara:
             vinyaasa.append(x+'्')
             if i+1 < len(shabda):
@@ -47,7 +57,7 @@ def get_shabda(vinyaasa):
 
         varna = vinyaasa[ii]
 
-        if ii == 0 and varna in svara:
+        if ii == 0 and varna in svara or varna in anunaasika_svara:
             jj = varna
         elif varna in svara and (vinyaasa[ii-1] in svara or vinyaasa[ii-1] == ' '):
             jj = varna

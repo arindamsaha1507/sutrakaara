@@ -5,7 +5,7 @@ from pathlib import Path
 from pratyaahaara import expand_pratyahaara
 from varna import *
 from vinyaasa import get_shabda, get_vinyaasa
-from sutra import *
+from sutra_bkp import *
 
 def pada_sandhi(mm, df=None):
 

@@ -9,7 +9,7 @@ def find_dhaatu(dd):
     d = get_dhaatu(dd)
 
     if len(d) == 1:
-        print('{}स्य {}-धातुः प्राप्तः'.format(d[0].गण, d[0].धातु))
+        print('{}स्य {}-धातुः प्राप्तः'.format(d[0].gana, d[0].dhaatu))
         return d[0]
     elif len(d) == 0:
         print('धातुः न प्राप्तः')

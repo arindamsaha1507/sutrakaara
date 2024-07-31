@@ -1,5 +1,5 @@
 from pratyaahaara import expand_pratyahaara
-from sutra import *
+from sutra_bkp import *
 from vinyaasa import get_shabda, get_vinyaasa
 from get_dhaatu import get_dhaatu
 import yaml
@@ -18,7 +18,7 @@ class Tin:
         	dd = get_dhaatu(ll)
         	assert len(dd) == 1
         	dd = dd[0]
-        	print(dd.गण)
+        	print(dd.gana)
         	
         	
 if __name__ == '__main__':
