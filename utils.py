@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
 from enum import Enum
 
-from varna import vyanjana
+from varna import vyanjana, sankhyaa
 
 
 class KhandaType(Enum):
@@ -68,6 +68,67 @@ class Prakriya:
         self.sthiti.append(string_sthiti)
         self.sutra.append(sutra)
         self.tippani.append(tippani)
+
+
+@dataclass
+class Sutra(ABC):
+    """Abstract base class for Sutras"""
+
+    sutra: str = field(init=False)
+    adhyaaya: int = field(init=False)
+    paada: int = field(init=False)
+    kramaanka: int = field(init=False)
+
+    def define(self, line: str):
+        """Define the Sutra"""
+
+        def convert_sanskrit_to_int(sanskrit_numeral: str) -> int:
+            num_str = "".join(str(sankhyaa.index(char)) for char in sanskrit_numeral)
+            return int(num_str)
+
+        parts = line.split(" ")
+        self.sutra = " ".join(parts[:-1])
+
+        numbers = parts[-1].split(".")
+
+        if len(numbers) != 3:
+            raise ValueError("Invalid Sutra number")
+
+        self.adhyaaya = convert_sanskrit_to_int(numbers[0])
+        self.paada = convert_sanskrit_to_int(numbers[1])
+        self.kramaanka = convert_sanskrit_to_int(numbers[2])
+
+        if self.adhyaaya < 1 or self.paada < 1 or self.kramaanka < 1:
+            raise ValueError("Invalid Sutra number")
+
+        if self.paada > 4:
+            raise ValueError("Invalid Paada number")
+
+        if self.adhyaaya > 8:
+            raise ValueError("Invalid Adhyaaya number")
+
+    def describe(self) -> str:
+        """Return the Sutra number in the format 'Adhyaaya.Paada.Kramaanka'"""
+
+        return f"{self.sutra} {self.adhyaaya}.{self.paada}.{self.kramaanka}"
+
+    def __call__(self, praakriya: Prakriya):
+        if self.check(praakriya):
+            self.apply(praakriya)
+
+    def push(self, praakriya: Prakriya, sthiti: list[Khanda], message: str):
+        """Push the new state to the Prakriya"""
+
+        praakriya.add_to_prakriya(sthiti, self.describe(), message)
+
+    @staticmethod
+    @abstractmethod
+    def check(prakriya: Prakriya):
+        """Check if the Sutra can be applied to the Prakriya"""
+
+    @abstractmethod
+    def apply(self, prakriya: Prakriya):
+        """Apply the Sutra to the Prakriya"""
 
 
 class UtilFunctions:

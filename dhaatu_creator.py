@@ -5,7 +5,7 @@
 from dataclasses import dataclass, field
 
 from utils import Khanda, Prakriya, KhandaType
-from sutra import ItSanjna, DhaatuSanjna
+from it_prakarana import ItSanjna, DhaatuSanjna
 
 
 GANAS = {
@@ -64,15 +64,17 @@ class Dhaatu(Khanda):
     def identify_it(self, prakriya: Prakriya):
         """Identify the It of the Dhaatu"""
 
-        ss = ItSanjna.VartikaOneThreeTwo()
-        ss(prakriya)
+        ItSanjna(prakriya=prakriya)
 
-        ss1 = ItSanjna.SutraOneThreeThree()
-        print(ss1.__dict__)
-        ss1(prakriya)
+        # ss = ItSanjna.VartikaOneThreeTwo()
+        # ss(prakriya)
 
-        ss = ItSanjna.SutraOneThreeTwo()
-        ss(prakriya)
+        # ss1 = ItSanjna.SutraOneThreeThree()
+        # print(ss1.__dict__)
+        # ss1(prakriya)
 
-        ss = ItSanjna.SutraOneThreeFour()
-        ss(prakriya)
+        # ss = ItSanjna.SutraOneThreeTwo()
+        # ss(prakriya)
+
+        # ss = ItSanjna.SutraOneThreeFive()
+        # ss(prakriya)
