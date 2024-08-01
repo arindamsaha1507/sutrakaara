@@ -1,7 +1,6 @@
 """All sutras"""
 
 from dataclasses import dataclass
-
 import copy
 
 from utils import Prakriya, UtilFunctions, Sutra, KhandaType, Khanda
@@ -9,35 +8,23 @@ from varna import anunaasika_svara, vyanjana
 from vinyaasa import get_vinyaasa, get_shabda
 
 
-class ItLopa:
-    """Class to define the Sutras for the It Lopa"""
+@dataclass
+class SutraOneThreeOne(Sutra):
+    """भूवादयो धातवः १.३.१"""
+
+    def __post_init__(self):
+        self.define("भूवादयो धातवः १.३.१")
 
     @staticmethod
-    def sutra_1_3_9(
-        prakriya: Prakriya, khanda: Khanda, khanda_index: int, indices: list[int]
-    ):
-        """तस्य लोपः १.३.९"""
+    def check():
+        # pylint: disable=arguments-differ
+        pass
 
-        print(indices)
+    def apply(self, prakriya: Prakriya, dhaatu: Khanda):
+        # pylint: disable=arguments-differ
 
-        vinyaasa = get_vinyaasa(khanda.roopa)
+        self.push(prakriya, [dhaatu], "धातु-संज्ञा")
 
-        for index in sorted(indices, reverse=True):
-            del vinyaasa[index]
-
-        khanda.roopa = get_shabda(vinyaasa)
-
-        sthiti = copy.deepcopy(prakriya.vartamaana_sthiti)
-        sthiti[khanda_index] = khanda
-
-        prakriya.add_to_prakriya(
-            sthiti,
-            "तस्य लोपः १.३.९",
-            "इत्-लोपः",
-        )
-
-
-        
 
 @dataclass
 class SutraOneThreeTwo(Sutra):
@@ -80,7 +67,8 @@ class SutraOneThreeTwo(Sutra):
         tippani = f"{'कार-'.join(varnas)}कार-इत्"
         self.push(prakriya, prakriya.vartamaana_sthiti, tippani)
 
-        ItLopa.sutra_1_3_9(prakriya, khanda, khanda_index, indices)
+        SutraOneThreeNine()(prakriya, khanda, khanda_index, indices)
+
 
 @dataclass
 class VartikaOneThreeTwo(Sutra):
@@ -123,14 +111,14 @@ class VartikaOneThreeTwo(Sutra):
 
         self.push(prakriya, prakriya.vartamaana_sthiti, "इर्-इत्")
 
-        ItLopa.sutra_1_3_9(prakriya, khanda, khanda_index, indices)
+        SutraOneThreeNine()(prakriya, khanda, khanda_index, indices)
+
 
 @dataclass
 class SutraOneThreeThree(Sutra):
     """हलन्त्यम् १.३.३"""
 
     def __post_init__(self):
-        print("SutraOneThreeThree")
         self.define("हलन्त्यम् १.३.३")
 
     @staticmethod
@@ -159,7 +147,8 @@ class SutraOneThreeThree(Sutra):
 
         self.push(prakriya, prakriya.vartamaana_sthiti, f"{vinyaasa[-1][0]}कार इत्")
 
-        ItLopa.sutra_1_3_9(prakriya, khanda, khanda_index, indices)
+        SutraOneThreeNine()(prakriya, khanda, khanda_index, indices)
+
 
 @dataclass
 class SutraOneThreeFive(Sutra):
@@ -199,4 +188,39 @@ class SutraOneThreeFive(Sutra):
             prakriya, prakriya.vartamaana_sthiti, f"{get_shabda(vinyaasa[:2])} इत्"
         )
 
-        ItLopa.sutra_1_3_9(prakriya, khanda, khanda_index, indices)
+        SutraOneThreeNine()(prakriya, khanda, khanda_index, indices)
+
+
+@dataclass
+class SutraOneThreeNine(Sutra):
+    """तस्य लोपः १.३.९"""
+
+    def __post_init__(self):
+        self.define("तस्य लोपः १.३.९")
+
+    @staticmethod
+    def check():
+        # pylint: disable=arguments-differ
+        pass
+
+    def apply(
+        self, prakriya: Prakriya, khanda: Khanda, khanda_index: int, indices: list[int]
+    ):
+        # pylint: disable=arguments-differ
+
+        vinyaasa = get_vinyaasa(khanda.roopa)
+
+        for index in sorted(indices, reverse=True):
+            del vinyaasa[index]
+
+        khanda.roopa = get_shabda(vinyaasa)
+
+        sthiti = copy.deepcopy(prakriya.vartamaana_sthiti)
+        sthiti[khanda_index] = khanda
+
+        self.push(prakriya, sthiti, "इत्-लोपः")
+
+    def __call__(
+        self, prakriya: Prakriya, khanda: Khanda, khanda_index: int, indices: list[int]
+    ):
+        self.apply(prakriya, khanda, khanda_index, indices)

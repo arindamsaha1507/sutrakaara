@@ -59,22 +59,9 @@ class Dhaatu(Khanda):
         if prakriya.length > 0:
             raise ValueError("The Prakriya is not empty")
 
-        DhaatuSanjna.sutra_1_3_1(prakriya, self)
+        DhaatuSanjna(prakriya, self)
 
     def identify_it(self, prakriya: Prakriya):
         """Identify the It of the Dhaatu"""
 
         ItSanjna(prakriya=prakriya)
-
-        # ss = ItSanjna.VartikaOneThreeTwo()
-        # ss(prakriya)
-
-        # ss1 = ItSanjna.SutraOneThreeThree()
-        # print(ss1.__dict__)
-        # ss1(prakriya)
-
-        # ss = ItSanjna.SutraOneThreeTwo()
-        # ss(prakriya)
-
-        # ss = ItSanjna.SutraOneThreeFive()
-        # ss(prakriya)

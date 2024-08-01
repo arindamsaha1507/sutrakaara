@@ -3,28 +3,46 @@
 from dataclasses import dataclass, field
 import inspect
 
-from utils import Prakriya
+from utils import Prakriya, Khanda
 import sutra_list
 
 
+@dataclass
 class DhaatuSanjna:
     """Class to define the Sutras for the Dhaatu Sanjna"""
 
-    @staticmethod
-    def sutra_1_3_1(prakriya: Prakriya, dhaatu):
-        """भूवादयो धातवः १.३.१"""
+    prakriya: Prakriya
+    dhaatu: Khanda
+    sutra_list: list = field(default_factory=list, init=False)
 
+    def __post_init__(self):
         stack = inspect.stack()
-        if stack[1].function == "add_dhaatu":
-            prakriya.add_to_prakriya([dhaatu], "भूवादयो धातवः १.३.१", "धातु-संज्ञा")
+        if stack[2].function == "add_dhaatu":
+            sutra_list.SutraOneThreeOne().apply(self.prakriya, self.dhaatu)
 
-        return prakriya
+    # self.execute()
 
-    @staticmethod
-    def sutra_3_1_32():
-        """धात्वादिभ्यः ३.१.३२"""
+    # def execute(self):
+    #     """Execute the Sutras"""
 
-        raise NotImplementedError("This Sutra is not implemented yet")
+    #     for sutra in self.sutra_list:
+    #         sutra(self.prakriya)
+
+    # @staticmethod
+    # def sutra_1_3_1(prakriya: Prakriya, dhaatu):
+    #     """भूवादयो धातवः १.३.१"""
+
+    #     stack = inspect.stack()
+    #     if stack[1].function == "add_dhaatu":
+    #         prakriya.add_to_prakriya([dhaatu], "भूवादयो धातवः १.३.१", "धातु-संज्ञा")
+
+    #     return prakriya
+
+    # @staticmethod
+    # def sutra_3_1_32():
+    #     """धात्वादिभ्यः ३.१.३२"""
+
+    #     raise NotImplementedError("This Sutra is not implemented yet")
 
 
 @dataclass
