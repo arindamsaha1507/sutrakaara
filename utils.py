@@ -4,6 +4,9 @@ from dataclasses import dataclass, field
 from abc import ABC, abstractmethod
 from enum import Enum
 
+from varna import vyanjana
+
+
 class KhandaType(Enum):
     """Enum to represent the type of Khanda"""
 
@@ -37,23 +40,6 @@ class Prakriya:
     tippani: list[str] = field(default_factory=list, init=False)
     vartamaana_sthiti: list[Khanda] = field(default=None, init=False)
 
-    # @property
-    # def roopa(self):
-    #     """Return the Dhatus in the Prakriya"""
-
-    #     tt = []
-    #     for line in self.sthiti:
-    #         ss = " ".join([str(khanda) for khanda in line])
-    #         tt.append(ss)
-
-    #     return tt
-
-    # @property
-    # def vartamaana_sthiti(self):
-    #     """Return the current state of the Prakriya"""
-
-    #     return self.sthiti[-1]
-
     @property
     def length(self):
         """Return the length of the Prakriya"""
@@ -83,8 +69,46 @@ class Prakriya:
         self.sutra.append(sutra)
         self.tippani.append(tippani)
 
-        # self.sthiti.append(copy.deepcopy(khanda))
-        # self.sutra.append(sutra)
-        # self.tippani.append(tippani)
 
-        print(self)
+class UtilFunctions:
+    """Class to define the utility functions"""
+
+    @staticmethod
+    def get_aupadeshika_khanda(prakriya: Prakriya, return_index: bool = True):
+        """Get the Aupadeshika Khanda"""
+
+        aupadeshika_khanda = [
+            khanda for khanda in prakriya.vartamaana_sthiti if khanda.aupadeshika
+        ]
+
+        if len(aupadeshika_khanda) > 1:
+            raise ValueError("Only one Aupadeshika Khanda is allowed")
+
+        if not aupadeshika_khanda:
+            return None
+
+        if not return_index:
+            return aupadeshika_khanda[0]
+
+        aupadeshika_khanda_index = [
+            ii
+            for ii, khanda in enumerate(prakriya.vartamaana_sthiti)
+            if khanda.aupadeshika
+        ]
+
+        return aupadeshika_khanda[0], aupadeshika_khanda_index[0]
+
+    @staticmethod
+    def add_dhaatu_it_svaras(dhaatu, indices, vinyaasa):
+        """Add the It Svaras to the Dhaatu"""
+
+        for idx in indices.copy():
+            if idx + 1 < len(vinyaasa) and vinyaasa[idx + 1] not in vyanjana:
+                if vinyaasa[idx + 1] == "॒":
+                    dhaatu.anudaatta_it = True
+                else:
+                    dhaatu.svarita_it = True
+
+                indices.append(idx + 1)
+
+        return indices
