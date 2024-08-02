@@ -29,6 +29,7 @@ def main():
     dhaatu = LoadDhaatus.create_all_dhaatus()[1647]
     dhaatu = LoadDhaatus.create_all_dhaatus()[2081]
     dhaatu = LoadDhaatus.create_all_dhaatus()[1211]
+    dhaatu = LoadDhaatus.create_all_dhaatus()[74]
     dhaatu.add_dhaatu(pp)
     dhaatu.identify_it(pp)
 

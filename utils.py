@@ -5,6 +5,7 @@ from abc import ABC, abstractmethod
 from enum import Enum
 
 from varna import vyanjana, sankhyaa
+from vinyaasa import get_shabda, get_vinyaasa
 
 
 class KhandaType(Enum):
@@ -12,6 +13,7 @@ class KhandaType(Enum):
 
     DHAATU = "धातु"
     PRATYAAYA = "प्रत्यय"
+    AAGAMA = "आगम"
 
 
 @dataclass
@@ -23,8 +25,7 @@ class Khanda(ABC):
     it: list = field(default_factory=list)
     aupadeshika: bool = field(default=True)
     upadesha: str = field(init=False)
-    uchchaarana: dict = field(default_factory=dict, init=False)
-
+    uchchaarana: list[int] = field(default_factory=list)
 
     @abstractmethod
     def __post_init__(self):
@@ -32,6 +33,32 @@ class Khanda(ABC):
 
     def __repr__(self) -> str:
         return self.roopa
+
+    def remove_uchchaarana(self):
+        """Remove the Uchchaarana from the Khanda"""
+
+        print(self.uchchaarana)
+        varnas = get_vinyaasa(self.roopa)
+        for inx in self.uchchaarana:
+            varnas.pop(inx)
+        self.roopa = get_shabda(varnas)
+
+
+@dataclass
+class Aagama(Khanda):
+    """Class to represent an Aagama"""
+
+    moola: str = field(default=None)
+    uchchaarana: list = field(default_factory=list)
+    mukhya: Khanda = field(default=None)
+
+    def __post_init__(self):
+        self.typ.append(KhandaType.AAGAMA)
+        self.roopa = self.moola
+
+    def __repr__(self) -> str:
+        # pylint: disable=useless-super-delegation
+        return super().__repr__()
 
 
 @dataclass
