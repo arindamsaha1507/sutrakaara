@@ -22,6 +22,9 @@ class Khanda(ABC):
     roopa: str = field(default=None)
     it: list = field(default_factory=list)
     aupadeshika: bool = field(default=True)
+    upadesha: str = field(init=False)
+    uchchaarana: dict = field(default_factory=dict, init=False)
+
 
     @abstractmethod
     def __post_init__(self):

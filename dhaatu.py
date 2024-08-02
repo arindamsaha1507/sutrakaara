@@ -32,7 +32,6 @@ class Dhaatu(Khanda):
     moola: str = field(default=None)
     kramaanka: str = field(init=False)
     gana: str = field(init=False)
-    upadesha: str = field(init=False)
     artha: str = field(init=False)
     dhaatu: str = field(init=False)
     pada: str = field(init=False)
