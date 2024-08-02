@@ -6,6 +6,7 @@ from dataclasses import dataclass, field
 
 from utils import Khanda, Prakriya, KhandaType
 from it_prakarana import ItSanjna, DhaatuSanjna
+from praakrita_kaarya import PraatritaKaaraya
 
 
 GANAS = {
@@ -65,3 +66,4 @@ class Dhaatu(Khanda):
         """Identify the It of the Dhaatu"""
 
         ItSanjna(prakriya=prakriya)
+        PraatritaKaaraya(prakriya)

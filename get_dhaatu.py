@@ -39,12 +39,14 @@ def main():
 
     pp = Prakriya()
     # dhaatu = DhaatuFunctions.create_all_dhaatus()[0]
-    dhaatu = DhaatuFunctions.create_all_dhaatus()[956]
+    # dhaatu = DhaatuFunctions.create_all_dhaatus()[956]
     # dhaatu = DhaatuFunctions.create_all_dhaatus()[268]
     # dhaatu = DhaatuFunctions.create_all_dhaatus()[1]
     # dhaatu = DhaatuFunctions.create_all_dhaatus()[424]
     # dhaatu = DhaatuFunctions.create_all_dhaatus()[1206]
     # dhaatu = DhaatuFunctions.create_all_dhaatus()[1647]
+    # dhaatu = DhaatuFunctions.create_all_dhaatus()[2081]
+    dhaatu = DhaatuFunctions.create_all_dhaatus()[1211]
     dhaatu.add_dhaatu(pp)
     dhaatu.identify_it(pp)
 

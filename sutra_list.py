@@ -224,3 +224,132 @@ class SutraOneThreeNine(Sutra):
         self, prakriya: Prakriya, khanda: Khanda, khanda_index: int, indices: list[int]
     ):
         self.apply(prakriya, khanda, khanda_index, indices)
+
+
+@dataclass
+class SutraSixOneSixtyFour(Sutra):
+    """धात्वादेः षः सः ६.१.६४"""
+
+    def __post_init__(self):
+        self.define("धात्वादेः षः सः ६.१.६४")
+        print("SutraSixOneSixtyFour")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+
+
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.DHAATU in khanda.typ
+        ]
+
+        print(khanda)
+        if not khanda:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        khanda = khanda[0]
+
+        varnas = get_vinyaasa(khanda.roopa)
+        if varnas[0] != "ष्":
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.DHAATU in khanda.typ
+        ][0]
+
+        khanda_index = [
+            idx
+            for idx, khanda in enumerate(prakriya.vartamaana_sthiti)
+            if KhandaType.DHAATU in khanda.typ
+        ][0]
+
+        varnas = get_vinyaasa(khanda.roopa)
+        varnas[0] = "स्"
+
+        replacement = {
+            "ण्": "न्",
+            "ट्": "त्",
+            "ठ्": "थ्",
+        }
+
+        if varnas[1] in replacement:
+            varnas[1] = replacement[varnas[1]]
+
+        if varnas[2] in replacement:
+            varnas[2] = replacement[varnas[2]]
+
+
+        khanda.roopa = get_shabda(varnas)
+
+        sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
+        sthitis[khanda_index] = khanda
+
+        self.push(prakriya, sthitis, "षकारस्य सकारः")
+
+
+@dataclass
+class SutraSixOneSixtyFive(Sutra):
+    """णो नः ६.१.६५"""
+
+    def __post_init__(self):
+        self.define("णो नः ६.१.६५")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+
+
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.DHAATU in khanda.typ
+        ]
+
+        if not khanda:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        khanda = khanda[0]
+
+        varnas = get_vinyaasa(khanda.roopa)
+        if varnas[0] != "ण्":
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.DHAATU in khanda.typ
+        ][0]
+
+        khanda_index = [
+            idx
+            for idx, khanda in enumerate(prakriya.vartamaana_sthiti)
+            if KhandaType.DHAATU in khanda.typ
+        ][0]
+
+        varnas = get_vinyaasa(khanda.roopa)
+        varnas[0] = "न्"
+
+        khanda.roopa = get_shabda(varnas)
+
+        sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
+        sthitis[khanda_index] = khanda
+
+        self.push(prakriya, sthitis, "णकारस्य नकारः")
