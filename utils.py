@@ -37,28 +37,10 @@ class Khanda(ABC):
     def remove_uchchaarana(self):
         """Remove the Uchchaarana from the Khanda"""
 
-        print(self.uchchaarana)
         varnas = get_vinyaasa(self.roopa)
         for inx in self.uchchaarana:
             varnas.pop(inx)
         self.roopa = get_shabda(varnas)
-
-
-@dataclass
-class Aagama(Khanda):
-    """Class to represent an Aagama"""
-
-    moola: str = field(default=None)
-    uchchaarana: list = field(default_factory=list)
-    mukhya: Khanda = field(default=None)
-
-    def __post_init__(self):
-        self.typ.append(KhandaType.AAGAMA)
-        self.roopa = self.moola
-
-    def __repr__(self) -> str:
-        # pylint: disable=useless-super-delegation
-        return super().__repr__()
 
 
 @dataclass

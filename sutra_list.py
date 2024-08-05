@@ -1,17 +1,14 @@
 """All sutras"""
 
-from __future__ import annotations
-from typing import TYPE_CHECKING
-
 from dataclasses import dataclass
 import copy
 
-from utils import Prakriya, UtilFunctions, Sutra, KhandaType, Khanda, Aagama
+from utils import Prakriya, UtilFunctions, Sutra, KhandaType, Khanda
 from varna import anunaasika_svara, vyanjana
 from vinyaasa import get_vinyaasa, get_shabda
 
-if TYPE_CHECKING:
-    from dhaatu import Dhaatu
+from aagama import Aagama
+from dhaatu import Dhaatu
 
 
 @dataclass
@@ -141,7 +138,6 @@ class SutraOneOneFortySeven(Sutra):
 
         varnas.insert(count + 1, aagama)
 
-
         mukhya.roopa = get_shabda(varnas)
 
         sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
@@ -149,7 +145,6 @@ class SutraOneOneFortySeven(Sutra):
         sthitis.pop(khanda_index)
 
         self.push(prakriya, sthitis, "आद्यन्तौ टकितौ")
-
 
 
 @dataclass
@@ -160,16 +155,22 @@ class SutraOneThreeOne(Sutra):
         self.define("भूवादयो धातवः १.३.१")
 
     @staticmethod
-    def check():
+    def check(prakriya: Prakriya):
         # pylint: disable=arguments-differ
-        pass
+        if not prakriya.vartamaana_sthiti:
+            return True
+        return False
 
-    def apply(self, prakriya: Prakriya, dhaatu: Dhaatu):
+    def apply(self, prakriya: Prakriya, moola: str):
         # pylint: disable=arguments-differ
 
-        gana = dhaatu.gana
+        dhaatu = Dhaatu(moola=moola)
+        self.push(prakriya, [dhaatu], f"{dhaatu.gana}स्य धातुः")
 
-        self.push(prakriya, [dhaatu], f"{gana}गणस्य धातुः")
+    def call(self, praakriya: Prakriya, moola: str):
+        """Call the Sutra"""
+        if self.check(praakriya):
+            self.apply(praakriya, moola)
 
 
 @dataclass
@@ -378,7 +379,6 @@ class SutraSixOneSixtyFour(Sutra):
 
     def __post_init__(self):
         self.define("धात्वादेः षः सः ६.१.६४")
-        print("SutraSixOneSixtyFour")
 
     @staticmethod
     def check(prakriya: Prakriya):
@@ -389,7 +389,6 @@ class SutraSixOneSixtyFour(Sutra):
             if KhandaType.DHAATU in khanda.typ
         ]
 
-        print(khanda)
         if not khanda:
             return False
 
@@ -545,7 +544,6 @@ class SutraSevenOneFiftyEight(Sutra):
 
         self.push(prakriya, sthitis, f"इदितस्य {khanda}-धातोः नुमागमः")
 
-        print(aagama.__dict__)
         aagama.remove_uchchaarana()
 
         ucchaarana = get_vinyaasa(aagama.moola)[aagama.uchchaarana[0]]

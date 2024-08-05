@@ -4,9 +4,7 @@
 
 from dataclasses import dataclass, field
 
-from utils import Khanda, Prakriya, KhandaType
-from it_prakarana import ItSanjna, DhaatuSanjna
-from praakrita_kaarya import PraakritaKaaraya
+from utils import Khanda, KhandaType
 
 
 GANAS = {
@@ -52,17 +50,3 @@ class Dhaatu(Khanda):
     def __repr__(self) -> str:
         # pylint: disable=useless-super-delegation
         return super().__repr__()
-
-    def add_dhaatu(self, prakriya: Prakriya):
-        """Add the Dhaatu to the Prakriya"""
-
-        if prakriya.length > 0:
-            raise ValueError("The Prakriya is not empty")
-
-        DhaatuSanjna(prakriya, self)
-
-    def identify_it(self, prakriya: Prakriya):
-        """Identify the It of the Dhaatu"""
-
-        ItSanjna(prakriya=prakriya)
-        PraakritaKaaraya(prakriya)

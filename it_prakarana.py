@@ -3,22 +3,9 @@
 from dataclasses import dataclass, field
 import inspect
 
-from utils import Prakriya, Khanda, UtilFunctions
+from utils import Prakriya, UtilFunctions
 import sutra_list
 
-
-@dataclass
-class DhaatuSanjna:
-    """Class to define the Sutras for the Dhaatu Sanjna"""
-
-    prakriya: Prakriya
-    dhaatu: Khanda
-    sutra_list: list = field(default_factory=list, init=False)
-
-    def __post_init__(self):
-        stack = inspect.stack()
-        if stack[2].function == "add_dhaatu":
-            sutra_list.SutraOneThreeOne().apply(self.prakriya, self.dhaatu)
 
 @dataclass
 class ItSanjna:

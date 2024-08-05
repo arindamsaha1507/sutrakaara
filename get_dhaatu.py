@@ -1,4 +1,10 @@
-from dhaatu import Dhaatu, Prakriya
+"""Get Dhaatus from a file"""
+
+from utils import Prakriya
+
+from dhaatu_prakarana import DhaatuSanjna
+from it_prakarana import ItSanjna
+from praakrita_kaarya import PraakritaKaaraya
 
 
 class LoadDhaatus:
@@ -12,33 +18,48 @@ class LoadDhaatus:
             s = ff.read()
 
         s = s.split("\n")
-        dhaatus = [Dhaatu(moola=w) for w in s]
-        return dhaatus
+        # dhaatus = [Dhaatu(moola=w) for w in s]
+        return s
 
 
 def main():
     """Main function"""
 
-    pp = Prakriya()
-    dhaatu = LoadDhaatus.create_all_dhaatus()[0]
-    dhaatu = LoadDhaatus.create_all_dhaatus()[956]
-    dhaatu = LoadDhaatus.create_all_dhaatus()[268]
-    dhaatu = LoadDhaatus.create_all_dhaatus()[1]
-    dhaatu = LoadDhaatus.create_all_dhaatus()[424]
-    dhaatu = LoadDhaatus.create_all_dhaatus()[1206]
-    dhaatu = LoadDhaatus.create_all_dhaatus()[1647]
-    dhaatu = LoadDhaatus.create_all_dhaatus()[2081]
-    dhaatu = LoadDhaatus.create_all_dhaatus()[1211]
-    dhaatu = LoadDhaatus.create_all_dhaatus()[74]
-    dhaatu.add_dhaatu(pp)
-    dhaatu.identify_it(pp)
+    with open("धातु_1.csv", "r", encoding="utf-8") as ff:
+        ref = ff.read()
 
-    # print(उपदेशेऽजनुनासिकइत्(pp))
+    ref = ref.split("\n")
+
+    selected_dhaatus = [
+        0,
+        956,
+        268,
+        1,
+        424,
+        1206,
+        1647,
+        2081,
+        1211,
+        74,
+    ]
+
+    for dhaatu_kramaanka in selected_dhaatus:
+
+        pp = Prakriya()
+        moola = LoadDhaatus.create_all_dhaatus()[dhaatu_kramaanka]
+        DhaatuSanjna(pp, moola)
+        ItSanjna(pp)
+        PraakritaKaaraya(pp)
+
+        ref_dhaatu = ref[dhaatu_kramaanka + 1].split(",")[6]
+
+        print(dhaatu_kramaanka, ref_dhaatu, pp.vartamaana_sthiti[0])
+
+
+
 
     with open("prakriya.txt", "w", encoding="utf-8") as ff:
         ff.write(pp.__repr__())
-
-    print(dhaatu.__dict__)
 
 
 if __name__ == "__main__":
