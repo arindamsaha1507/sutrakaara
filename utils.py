@@ -14,6 +14,9 @@ class KhandaType(Enum):
     DHAATU = "धातु"
     PRATYAAYA = "प्रत्यय"
     AAGAMA = "आगम"
+    NIPAATA = "निपात"
+    SVARAADI = "स्वरादि"
+    AVYAYA = "अव्यय"
 
 
 @dataclass

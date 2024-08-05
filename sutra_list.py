@@ -12,6 +12,49 @@ from dhaatu import Dhaatu
 
 
 @dataclass
+class SutraOneOneThirtySeven(Sutra):
+    """स्वरादिनिपातमव्ययम् १.१.३७"""
+
+    def __post_init__(self):
+        self.define("स्वरादिनिपातमव्ययम् १.१.३७")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.NIPAATA in khanda.typ and KhandaType.AVYAYA not in khanda.typ
+        ]
+        if len(khanda) == 1:
+            return True
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.SVARAADI in khanda.typ and KhandaType.AVYAYA not in khanda.typ
+        ]
+
+        if len(khanda) == 1:
+            return True
+
+        return False
+
+    def apply(self, prakriya: Prakriya):
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if (KhandaType.NIPAATA in khanda.typ or KhandaType.SVARAADI in khanda.typ)
+            and KhandaType.AVYAYA not in khanda.typ
+        ]
+
+        khanda = khanda[0]
+
+        khanda.typ.append(KhandaType.AVYAYA)
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "अव्ययम्")
+
+
+@dataclass
 class SutraOneOneFortySix(Sutra):
     """आद्यन्तौ टकितौ १.१.४६"""
 
@@ -159,6 +202,12 @@ class SutraOneThreeOne(Sutra):
         # pylint: disable=arguments-differ
         if not prakriya.vartamaana_sthiti:
             return True
+
+        if not any(
+            khanda.typ == KhandaType.DHAATU for khanda in prakriya.vartamaana_sthiti
+        ):
+            return True
+
         return False
 
     def apply(self, prakriya: Prakriya, moola: str):
