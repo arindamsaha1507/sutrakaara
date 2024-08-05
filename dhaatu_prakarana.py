@@ -16,4 +16,3 @@ class DhaatuSanjna:
 
         sutra = sutra_list.SutraOneThreeOne()
         sutra.call(self.prakriya, self.moola)
-

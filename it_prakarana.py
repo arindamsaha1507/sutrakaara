@@ -1,7 +1,6 @@
 """Module for Sutras."""
 
 from dataclasses import dataclass, field
-import inspect
 
 from utils import Prakriya, UtilFunctions
 import sutra_list
