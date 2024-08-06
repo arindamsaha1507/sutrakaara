@@ -9,8 +9,9 @@ from vinyaasa import get_vinyaasa, get_shabda
 
 from aagama import Aagama
 from dhaatu import Dhaatu
-from upasarga import Upasarga
+from pada import Pada
 from sup import Sup
+from upasarga import Upasarga
 
 
 @dataclass
@@ -503,6 +504,80 @@ class SutraOneFourFiftyEight(Sutra):
 
 
 @dataclass
+class SutraOneFourFourteen(Sutra):
+    """सुप्तिङन्तं पदम् १.४.१४"""
+
+    def __post_init__(self):
+        self.define("सुप्तिङन्तं पदम् १.४.१४")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.SUP in khanda.typ or KhandaType.TIN in khanda.typ
+        ]
+
+        if not khanda:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.SUP in khanda.typ or KhandaType.TIN in khanda.typ
+        ][0]
+
+        anta_index = [
+            idx
+            for idx, khanda in enumerate(prakriya.vartamaana_sthiti)
+            if KhandaType.SUP in khanda.typ or KhandaType.TIN in khanda.typ
+        ][0]
+
+        aadi_index = anta_index - 1
+
+        while aadi_index >= 0:
+            if (
+                KhandaType.PRAATIPADIKA in prakriya.vartamaana_sthiti[aadi_index].typ
+                or KhandaType.DHAATU in prakriya.vartamaana_sthiti[aadi_index].typ
+            ):
+                break
+            aadi_index -= 1
+
+        if aadi_index < 0:
+            raise ValueError("No Aadi found")
+
+        vinyaasa = []
+        typs = [KhandaType.PADA]
+        for idx in range(aadi_index, anta_index):
+            vinyaasa.extend(get_vinyaasa(prakriya.vartamaana_sthiti[idx].roopa))
+            if KhandaType.KRT in prakriya.vartamaana_sthiti[idx].typ:
+                typs.append(KhandaType.KRIDANTA)
+            if KhandaType.TADDHITA in prakriya.vartamaana_sthiti[idx].typ:
+                typs.append(KhandaType.TADDHITAANTA)
+
+
+        if KhandaType.SUP in prakriya.vartamaana_sthiti[anta_index].typ:
+            typs.append(KhandaType.SUBANTA)
+        else:
+            typs.append(KhandaType.TINGANTA)
+
+        shabda = get_shabda(vinyaasa)
+        padam = Pada(moola=shabda, names=typs)
+
+        sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
+        sthitis.insert(aadi_index, padam)
+
+        for idx in range(aadi_index + 1, anta_index + 2):
+            sthitis.pop(aadi_index + 1)
+
+        self.push(prakriya, sthitis, f"{padam.roopa} इत्यस्य पदसंज्ञा")
+
+
+@dataclass
 class SutraOneFourFiftyNine(Sutra):
     """उपसर्गाः क्रियायोगे १.४.५९"""
 
@@ -581,9 +656,7 @@ class SutraTwoFourEightyTwo(Sutra):
             if KhandaType.AVYAYA in khanda.typ
         ][0]
 
-        if (
-            KhandaType.SUP not in prakriya.vartamaana_sthiti[khanda_index + 1].typ
-        ):
+        if KhandaType.SUP not in prakriya.vartamaana_sthiti[khanda_index + 1].typ:
             return False
 
         return True

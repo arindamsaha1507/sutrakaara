@@ -49,6 +49,9 @@ class UpasargaKaarya:
         sutra = sutra_list.SutraTwoFourEightyTwo()
         sutra(self.prakriya)
 
+        sutra = sutra_list.SutraOneFourFourteen()
+        sutra(self.prakriya)
+
 
     def execute(self):
         """Execute the Sutras"""

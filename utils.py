@@ -23,6 +23,15 @@ class KhandaType(Enum):
     PRAATIPADIKA = "प्रातिपदिक"
     PRATYAYA = "प्रत्यय"
     SUP = "सुप्"
+    TIN = "तिङ्"
+    PADA = "पद"
+    SUBANTA = "सुबन्त"
+    TINGANTA = "तिङन्त"
+    KRT = "कृत्"
+    TADDHITA = "तद्धित"
+    KRIDANTA = "कृदन्त"
+    TADDHITAANTA = "तद्धितान्त"
+
 
 
 SUP = [
