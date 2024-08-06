@@ -575,8 +575,6 @@ class SutraTwoFourEightyTwo(Sutra):
         else:
             khanda = khanda[0]
 
-        print(khanda.roopa)
-
         khanda_index = [
             idx
             for idx, khanda in enumerate(prakriya.vartamaana_sthiti)
