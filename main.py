@@ -7,6 +7,7 @@ from utils import Prakriya
 from dhaatu_prakarana import DhaatuSanjna
 from it_prakarana import ItSanjna
 from praakrita_kaarya import PraakritaKaaraya
+from upasarga_kaarya import UpasargaKaarya
 
 
 class CreatePrakriya:
@@ -27,10 +28,16 @@ class CreatePrakriya:
         PraakritaKaaraya(pp)
 
     @staticmethod
-    def add_upasarga(pp: Prakriya, gana: str, upasarga: str):
+    def add_upasarga(pp: Prakriya, upasarga: str):
         """Add an Upasarga to the Prakriya"""
 
-        pass
+        with open("गणपाठ.yml", "r", encoding="utf-8") as ff:
+            upasarga_list = yaml.safe_load(ff)["प्रादि"]
+
+        if upasarga not in upasarga_list:
+            raise ValueError(f"Upasarga {upasarga} not found in the file")
+
+        UpasargaKaarya(pp, upasarga)
 
 
 def main():
@@ -38,6 +45,9 @@ def main():
 
     pp = Prakriya()
     CreatePrakriya.add_dhaatu(pp, 1205)
+    CreatePrakriya.add_upasarga(pp, "सु")
+    CreatePrakriya.add_upasarga(pp, "आङ्")
+    CreatePrakriya.add_upasarga(pp, "अधि")
 
     with open("prakriya.txt", "w", encoding="utf-8") as ff:
         ff.write(pp.__repr__())

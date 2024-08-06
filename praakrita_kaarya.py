@@ -1,3 +1,5 @@
+"""Praakrita Kaaryaa"""
+
 from dataclasses import dataclass, field
 from utils import Prakriya
 import sutra_list
