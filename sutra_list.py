@@ -6,6 +6,7 @@ import copy
 from utils import Prakriya, UtilFunctions, Sutra, KhandaType, Khanda, Krdartha
 from varna import anunaasika_svara, vyanjana
 from vinyaasa import get_vinyaasa, get_shabda
+from pratyaahaara import expand_pratyahaara
 
 from aagama import Aagama
 from dhaatu import Dhaatu
@@ -1022,6 +1023,158 @@ class SutraSixOneSixtyFive(Sutra):
 
 
 @dataclass
+class SutraSixOneSeventySeven(Sutra):
+    """इको यणचि ६.१.७७"""
+
+    def __post_init__(self):
+        self.define("इको यणचि ६.१.७७")
+
+    @staticmethod
+    def check(prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        ss = prakriya.string
+        aa = ss[indices[0]]
+        bb = ss[indices[1]]
+
+        if aa in expand_pratyahaara("इक्") and bb in expand_pratyahaara("अच्"):
+            return True
+
+        return False
+
+    def apply(self, prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        ss = prakriya.string
+        aa = ss[indices[0]]
+
+        if aa in ["इ", "ई"]:
+            replacement = "य्"
+        elif aa in ["उ", "ऊ"]:
+            replacement = "व्"
+        elif aa in ["ऋ", "ॠ"]:
+            replacement = "र्"
+        elif aa == "ऌ":
+            replacement = "ल्"
+
+        prakriya.replace_index(indices[0], replacement)
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "यणादेशः")
+
+    def call(self, prakriya: Prakriya, indices: tuple[int, int]):
+        """Call the Sutra"""
+        if self.check(prakriya, indices):
+            self.apply(prakriya, indices)
+
+
+@dataclass
+class SutraSixOneSeventyEight(Sutra):
+    """एचोऽयवायावः ६.१.७८"""
+
+    def __post_init__(self):
+        self.define("एचोऽयवायावः ६.१.७८")
+
+    @staticmethod
+    def check(prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        ss = prakriya.string
+        aa = ss[indices[0]]
+        bb = ss[indices[1]]
+
+        if aa in expand_pratyahaara("एच्") and bb in expand_pratyahaara("अच्"):
+            return True
+
+        return False
+    
+    def apply(self, prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        ss = prakriya.string
+        aa = ss[indices[0]]
+
+        if aa == "ए":
+            replacement = "अ"
+            insertion = "य्"
+        elif aa == "ऐ":
+            replacement = "आ"
+            insertion = "य्"
+        elif aa == "ओ":
+            replacement = "अ"
+            insertion = "व्"
+        elif aa == "औ":
+            replacement = "आ"
+            insertion = "व्"
+
+        prakriya.replace_index(indices[0], replacement)
+        prakriya.insert_index(indices[0] + 1, insertion)
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "यान्तवान्तादेशः")
+
+    def call(self, prakriya: Prakriya, indices: tuple[int, int]):
+        """Call the Sutra"""
+        if self.check(prakriya, indices):
+            self.apply(prakriya, indices)
+
+@dataclass
+class SutraSixOneOneHundredOne(Sutra):
+    """अकः सवर्णे दीर्घः ६.१.१०१"""
+
+    def __post_init__(self):
+        self.define("अकः सवर्णे दीर्घः ६.१.१०१")
+
+    @staticmethod
+    def check(prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        ss = prakriya.string
+        aa = ss[indices[0]]
+        bb = ss[indices[1]]
+
+        if not (aa in expand_pratyahaara("अक्") and bb in expand_pratyahaara("अक्")):
+            return False
+
+        if aa in ["अ", "आ"] and bb not in ["अ", "आ"]:
+            return False
+
+        if aa in ["इ", "ई"] and bb not in ["इ", "ई"]:
+            return False
+
+        if aa in ["उ", "ऊ"] and bb not in ["उ", "ऊ"]:
+            return False
+
+        if aa in ["ऋ", "ॠ"] and bb not in ["ऋ", "ॠ"]:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        ss = prakriya.string
+        aa = ss[indices[0]]
+
+        if aa in ["अ", "आ"]:
+            replacement = "आ"
+        elif aa in ["इ", "ई"]:
+            replacement = "ई"
+        elif aa in ["उ", "ऊ"]:
+            replacement = "ऊ"
+        elif aa in ["ऋ", "ॠ"]:
+            replacement = "ॠ"
+
+        prakriya.replace_index(indices[0], replacement)
+        prakriya.replace_index(indices[1], " ")
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "सवर्णदीर्घः")
+
+    def call(self, prakriya: Prakriya, indices: tuple[int, int]):
+        """Call the Sutra"""
+        if self.check(prakriya, indices):
+            self.apply(prakriya, indices)
+
+
+@dataclass
 class SutraSevenOneFiftyEight(Sutra):
     """इदितो नुम् धातोः ७.१.५८"""
 
@@ -1105,7 +1258,6 @@ class SutraSevenTwoOneHundredFifteen(Sutra):
             and get_vinyaasa(prakriya.vartamaana_sthiti[idx - 1].roopa)[-1]
             in ["इ", "उ", "ऋ", "ऌ"]
         ]
-
 
         if not aa:
             return False

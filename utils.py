@@ -33,30 +33,30 @@ class KhandaType(Enum):
     TADDHITAANTA = "तद्धितान्त"
 
 
-
 SUP = [
-            "सुँ",
-            "औ",
-            "जस्",
-            "अम्",
-            "औट्",
-            "शस्",
-            "टा",
-            "भ्याम्",
-            "भिस्",
-            "ङॆ",
-            "भ्याम्",
-            "भ्यस्",
-            "ङसिँ",
-            "भ्याम्",
-            "भ्यस्",
-            "ङस्",
-            "ओस्",
-            "आम्",
-            "ङि",
-            "ओस्",
-            "सुप्",
+    "सुँ",
+    "औ",
+    "जस्",
+    "अम्",
+    "औट्",
+    "शस्",
+    "टा",
+    "भ्याम्",
+    "भिस्",
+    "ङॆ",
+    "भ्याम्",
+    "भ्यस्",
+    "ङसिँ",
+    "भ्याम्",
+    "भ्यस्",
+    "ङस्",
+    "ओस्",
+    "आम्",
+    "ङि",
+    "ओस्",
+    "सुप्",
 ]
+
 
 class Krdartha(Enum):
     """Enum to represent the Krdartha"""
@@ -110,6 +110,7 @@ class Prakriya:
     sutra: list[str] = field(default_factory=list, init=False)
     tippani: list[str] = field(default_factory=list, init=False)
     vartamaana_sthiti: list[Khanda] = field(default=None, init=False)
+    final: str = field(default=None, init=False)
 
     @property
     def length(self):
@@ -119,6 +120,86 @@ class Prakriya:
             raise ValueError("The lengths of the Prakriya lists do not match")
 
         return len(self.sthiti)
+
+    @property
+    def string(self):
+        """Return the vartamaana sthiti as a string"""
+
+        ss = " ".join([str(khanda) for khanda in self.vartamaana_sthiti])
+        return get_vinyaasa(ss)
+
+    def replace_index(self, index: int, replacement: str):
+        """Replace the letter at the given index with the replacement"""
+
+        total_length = 0
+        required_khanda = None
+
+        for khanda in self.vartamaana_sthiti:
+            vinyaasa = get_vinyaasa(khanda.roopa)
+            if index < total_length + len(vinyaasa):
+                reduced_index = index - total_length
+                required_khanda = khanda
+                break
+            total_length += len(vinyaasa) + 1
+
+        if reduced_index >= len(vinyaasa):
+            raise ValueError("Invalid index")
+
+        vinyaasa[reduced_index] = replacement
+        required_khanda.roopa = get_shabda(vinyaasa)
+
+    def insert_index(self, index: int, replacement: str):
+        """Insert the letter at the given index with the replacement"""
+
+        total_length = 0
+        required_khanda = None
+
+        for khanda in self.vartamaana_sthiti:
+            vinyaasa = get_vinyaasa(khanda.roopa)
+            if index < total_length + len(vinyaasa):
+                reduced_index = index - total_length
+                required_khanda = khanda
+                break
+            total_length += len(vinyaasa) + 1
+
+        if reduced_index >= len(vinyaasa):
+            raise ValueError("Invalid index")
+
+        vinyaasa.insert(reduced_index, replacement)
+        required_khanda.roopa = get_shabda(vinyaasa)
+
+    def delete_index(self, index: int):
+        """Delete the letter at the given index with the replacement"""
+
+        total_length = 0
+        required_khanda = None
+
+        for khanda in self.vartamaana_sthiti:
+            vinyaasa = get_vinyaasa(khanda.roopa)
+            if index < total_length + len(vinyaasa):
+                reduced_index = index - total_length
+                required_khanda = khanda
+                break
+            total_length += len(vinyaasa) + 1
+
+        if reduced_index >= len(vinyaasa):
+            raise ValueError("Invalid index")
+
+        vinyaasa.pop(reduced_index)
+        required_khanda.roopa = get_shabda(vinyaasa)
+
+    def combine(self):
+        """Combine the Vartamaana Sthiti to form the final string"""
+
+        vinyaasa = []
+
+        for khanda in self.vartamaana_sthiti:
+            vv = get_vinyaasa(khanda.roopa)
+            while " " in vv:
+                vv.remove(" ")
+            vinyaasa.extend(vv)
+
+        self.final = get_shabda(vinyaasa)
 
     def __repr__(self) -> str:
 

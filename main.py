@@ -9,6 +9,7 @@ from dhaatu_prakarana import DhaatuSanjna
 from it_prakarana import ItSanjna
 from krt_vidhaana import KrtVidhaana
 from praakrita_kaarya import PraakritaKaaraya
+from sandhi_kaarya import SandhiKaarya
 from upasarga_kaarya import UpasargaKaarya
 
 
@@ -47,6 +48,8 @@ class CreatePrakriya:
 
         KrtVidhaana(pp, krt, artha)
         AngaKaarya(pp)
+        SandhiKaarya(pp)
+
 
 
 def main():
@@ -59,8 +62,13 @@ def main():
     CreatePrakriya.add_upasarga(pp, "अधि")
     CreatePrakriya.add_krt(pp, "घञ्", Krdartha.BHAAVA)
 
+    pp.combine()
+
+
     with open("prakriya.txt", "w", encoding="utf-8") as ff:
         ff.write(pp.__repr__())
+        ff.write("\n")
+        ff.write(pp.final)
 
 
 if __name__ == "__main__":
