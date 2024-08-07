@@ -58,6 +58,22 @@ SUP = [
             "सुप्",
 ]
 
+class Krdartha(Enum):
+    """Enum to represent the Krdartha"""
+
+    KRTYA = "कृत्य"
+    NVULAADI = "ण्वुलादि"
+    ANAADI = "अणादि"
+    BHOOTA = "भूत"
+    VARTAMAANA = "वर्तमान"
+    TAACHCHHILA = "ताच्छिल"
+    BHAVISHYAT = "भविष्यत्"
+    BHAAVA = "भाव"
+    STRI = "स्त्री"
+    KARANAADHIKARANA = "करणाधिकरण"
+    KHALAADI = "खलादि"
+    DHAATUSAMBANDHI = "धातुसम्बन्धी"
+
 
 @dataclass
 class Khanda(ABC):

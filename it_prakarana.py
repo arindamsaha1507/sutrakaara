@@ -19,6 +19,7 @@ class ItSanjna:
             sutra_list.SutraOneThreeThree(),
             sutra_list.SutraOneThreeTwo(),
             sutra_list.SutraOneThreeFive(),
+            sutra_list.SutraOneThreeEight(),
         ]
 
         self.execute()

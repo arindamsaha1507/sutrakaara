@@ -2,10 +2,12 @@
 
 import yaml
 
-from utils import Prakriya
+from utils import Prakriya, Krdartha
 
+from anga_kaarya import AngaKaarya
 from dhaatu_prakarana import DhaatuSanjna
 from it_prakarana import ItSanjna
+from krt_vidhaana import KrtVidhaana
 from praakrita_kaarya import PraakritaKaaraya
 from upasarga_kaarya import UpasargaKaarya
 
@@ -39,6 +41,13 @@ class CreatePrakriya:
 
         UpasargaKaarya(pp, upasarga)
 
+    @staticmethod
+    def add_krt(pp: Prakriya, krt: str, artha: Krdartha):
+        """Add a Krt to the Prakriya"""
+
+        KrtVidhaana(pp, krt, artha)
+        AngaKaarya(pp)
+
 
 def main():
     """Main function"""
@@ -48,6 +57,7 @@ def main():
     CreatePrakriya.add_upasarga(pp, "सु")
     CreatePrakriya.add_upasarga(pp, "आङ्")
     CreatePrakriya.add_upasarga(pp, "अधि")
+    CreatePrakriya.add_krt(pp, "घञ्", Krdartha.BHAAVA)
 
     with open("prakriya.txt", "w", encoding="utf-8") as ff:
         ff.write(pp.__repr__())

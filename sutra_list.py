@@ -3,12 +3,13 @@
 from dataclasses import dataclass
 import copy
 
-from utils import Prakriya, UtilFunctions, Sutra, KhandaType, Khanda
+from utils import Prakriya, UtilFunctions, Sutra, KhandaType, Khanda, Krdartha
 from varna import anunaasika_svara, vyanjana
 from vinyaasa import get_vinyaasa, get_shabda
 
 from aagama import Aagama
 from dhaatu import Dhaatu
+from krt import Krt
 from pada import Pada
 from sup import Sup
 from upasarga import Upasarga
@@ -432,6 +433,45 @@ class SutraOneThreeFive(Sutra):
 
 
 @dataclass
+class SutraOneThreeEight(Sutra):
+    """लशक्वतद्धिते १.३.८"""
+
+    def __post_init__(self):
+        self.define("लशक्वतद्धिते १.३.८")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+        khanda = UtilFunctions.get_aupadeshika_khanda(prakriya, return_index=False)
+        if not khanda:
+            return False
+
+        if KhandaType.PRATYAAYA not in khanda.typ:
+            return False
+
+        if KhandaType.TADDHITA in khanda.typ:
+            return False
+
+        vinyaasa = get_vinyaasa(khanda.roopa)
+
+        if vinyaasa[0] not in ["ल्", "श्", "क्", "ख्", "ग्", "घ्", "ङ्"]:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        khanda, khanda_index = UtilFunctions.get_aupadeshika_khanda(prakriya)
+        vinyaasa = get_vinyaasa(khanda.roopa)
+
+        indices = [0]
+        khanda.it.extend([vinyaasa[0]])
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, f"{vinyaasa[0][0]}कार इत्")
+
+        SutraOneThreeNine()(prakriya, khanda, khanda_index, indices)
+
+
+@dataclass
 class SutraOneThreeNine(Sutra):
     """तस्य लोपः १.३.९"""
 
@@ -559,7 +599,6 @@ class SutraOneFourFourteen(Sutra):
             if KhandaType.TADDHITA in prakriya.vartamaana_sthiti[idx].typ:
                 typs.append(KhandaType.TADDHITAANTA)
 
-
         if KhandaType.SUP in prakriya.vartamaana_sthiti[anta_index].typ:
             typs.append(KhandaType.SUBANTA)
         else:
@@ -673,6 +712,132 @@ class SutraTwoFourEightyTwo(Sutra):
         sthitis[khanda_index + 1].roopa = ""
 
         self.push(prakriya, sthitis, "सुब्लुक्")
+
+
+@dataclass
+class SutraThreeThreeEighteen(Sutra):
+    """भावे ३.३.१८"""
+
+    def __post_init__(self):
+        self.define("भावे ३.३.१८")
+
+    @staticmethod
+    def check(prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        if artha != Krdartha.BHAAVA:
+            return False
+
+        if pratyaya != "घञ्":
+            return False
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.DHAATU in khanda.typ
+        ]
+
+        if not khanda:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        sutra = SutraThreeThreeTwentyOne()
+        sutra.call(prakriya, pratyaya, artha)
+        if sutra.check(prakriya, artha, pratyaya):
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.DHAATU in khanda.typ
+        ][0]
+
+        khanda_index = [
+            idx
+            for idx, khanda in enumerate(prakriya.vartamaana_sthiti)
+            if KhandaType.DHAATU in khanda.typ
+        ][0]
+
+        krt = Krt(moola=pratyaya, mukhya=khanda)
+        sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
+        sthitis.insert(khanda_index + 1, krt)
+
+        self.push(prakriya, sthitis, f"{artha.value}-अर्थे {pratyaya} प्रत्ययः")
+
+    def call(self, praakriya: Prakriya, pratyaya: str, artha: Krdartha):
+        """Call the Sutra"""
+        if self.check(praakriya, artha, pratyaya):
+            self.apply(praakriya, artha, pratyaya)
+
+
+@dataclass
+class SutraThreeThreeTwentyOne(Sutra):
+    """इङश्च ३.३.२१"""
+
+    def __post_init__(self):
+        self.define("इङश्च ३.३.२१")
+
+    @staticmethod
+    def check(prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        if artha != Krdartha.BHAAVA:
+            return False
+
+        if pratyaya != "घञ्":
+            return False
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.DHAATU in khanda.typ
+        ]
+
+        if not khanda:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        khanda = khanda[0]
+
+        if khanda.upadesha != "इ॒ङ्":
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.DHAATU in khanda.typ
+        ][0]
+
+        khanda_index = [
+            idx
+            for idx, khanda in enumerate(prakriya.vartamaana_sthiti)
+            if KhandaType.DHAATU in khanda.typ
+        ][0]
+
+        krt = Krt(moola=pratyaya, mukhya=khanda)
+        sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
+        sthitis.insert(khanda_index + 1, krt)
+
+        self.push(prakriya, sthitis, f"{artha.value}-अर्थे {pratyaya} प्रत्ययः")
+
+    def call(self, praakriya: Prakriya, pratyaya: str, artha: Krdartha):
+        """Call the Sutra"""
+        if self.check(praakriya, artha, pratyaya):
+            self.apply(praakriya, artha, pratyaya)
 
 
 @dataclass
@@ -910,3 +1075,72 @@ class SutraSevenOneFiftyEight(Sutra):
         ucchaarana = get_vinyaasa(aagama.moola)[aagama.uchchaarana[0]]
 
         prakriya.add_to_prakriya(sthitis, "-", f"{ucchaarana}कार उच्चारणार्थम्")
+
+
+@dataclass
+class SutraSevenTwoOneHundredFifteen(Sutra):
+    """अचो ञ्णिति ७.२.११५"""
+
+    def __post_init__(self):
+        self.define("अचो ञ्णिति ७.२.११५")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if KhandaType.PRATYAAYA in khanda.typ
+            and ("ञ्" in khanda.it or "ण्" in khanda.it)
+        ]
+
+        if not khanda:
+            return False
+
+        aa = [
+            (idx - 1, prakriya.vartamaana_sthiti[idx - 1])
+            for idx, khanda in enumerate(prakriya.vartamaana_sthiti)
+            if KhandaType.PRATYAAYA in khanda.typ
+            and ("ञ्" in khanda.it or "ण्" in khanda.it)
+            and get_vinyaasa(prakriya.vartamaana_sthiti[idx - 1].roopa)[-1]
+            in ["इ", "उ", "ऋ", "ऌ"]
+        ]
+
+
+        if not aa:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        aa = [
+            (idx - 1, prakriya.vartamaana_sthiti[idx - 1])
+            for idx, khanda in enumerate(prakriya.vartamaana_sthiti)
+            if KhandaType.PRATYAAYA in khanda.typ
+            and ("ञ्" in khanda.it or "ण्" in khanda.it)
+            and get_vinyaasa(prakriya.vartamaana_sthiti[idx - 1].roopa)[-1]
+            in ["इ", "उ", "ऋ", "ऌ"]
+        ][0]
+
+        idx, anga = aa
+
+        new_anga = copy.deepcopy(anga)
+        vinyaasa = get_vinyaasa(anga.roopa)
+        if vinyaasa[-1] == "इ":
+            vinyaasa[-1] = "ऐ"
+        elif vinyaasa[-1] == "उ":
+            vinyaasa[-1] = "औ"
+        elif vinyaasa[-1] == "ऋ":
+            vinyaasa[-1] = "आ"
+            vinyaasa.append("र्")
+        elif vinyaasa[-1] == "ऌ":
+            vinyaasa[-1] = "आ"
+            vinyaasa.append("ल्")
+
+        new_anga.roopa = get_shabda(vinyaasa)
+
+        sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
+        sthitis[idx] = new_anga
+
+        self.push(prakriya, sthitis, "अङ्गवृद्धिः")
