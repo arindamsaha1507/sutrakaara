@@ -11,6 +11,7 @@ class Krt(Khanda):
 
     moola: str = field(default=None)
     mukhya: Khanda = field(default=None)
+    uchchaarana: list = field(default_factory=list)
 
     def __post_init__(self):
         self.typ.append(KhandaType.KRT)

@@ -17,6 +17,7 @@ class AngaKaarya:
 
         self.sutra_list = [
             sutra_list.SutraSevenTwoOneHundredFifteen(),
+            sutra_list.SutraSixFourOneHundredFortyThree(),
         ]
 
         self.execute()

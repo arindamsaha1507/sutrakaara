@@ -282,6 +282,61 @@ class Sutra(ABC):
     def apply(self, prakriya: Prakriya):
         """Apply the Sutra to the Prakriya"""
 
+@dataclass
+class Unaadi(ABC):
+    """Abstract base class for Sutras"""
+
+    sutra: str = field(init=False)
+    paada: int = field(init=False)
+    kramaanka: int = field(init=False)
+
+    def define(self, line: str):
+        """Define the Sutra"""
+
+        def convert_sanskrit_to_int(sanskrit_numeral: str) -> int:
+            num_str = "".join(str(sankhyaa.index(char)) for char in sanskrit_numeral)
+            return int(num_str)
+
+        parts = line.split(" ")
+        self.sutra = " ".join(parts[:-1])
+
+        numbers = parts[-1].split(".")
+
+        if len(numbers) != 2:
+            raise ValueError("Invalid Sutra number")
+
+        self.paada = convert_sanskrit_to_int(numbers[0])
+        self.kramaanka = convert_sanskrit_to_int(numbers[1])
+
+        if self.paada < 1 or self.kramaanka < 1:
+            raise ValueError("Invalid Sutra number")
+
+        if self.paada > 5:
+            raise ValueError("Invalid Paada number")
+
+    def describe(self) -> str:
+        """Return the Sutra number in the format 'Adhyaaya.Paada.Kramaanka'"""
+
+        return f"{self.sutra} {self.paada}.{self.kramaanka}"
+
+    def __call__(self, praakriya: Prakriya):
+        if self.check(praakriya):
+            self.apply(praakriya)
+
+    def push(self, praakriya: Prakriya, sthiti: list[Khanda], message: str):
+        """Push the new state to the Prakriya"""
+
+        praakriya.add_to_prakriya(sthiti, self.describe(), message)
+
+    @staticmethod
+    @abstractmethod
+    def check(prakriya: Prakriya):
+        """Check if the Sutra can be applied to the Prakriya"""
+
+    @abstractmethod
+    def apply(self, prakriya: Prakriya):
+        """Apply the Sutra to the Prakriya"""
+
 
 class UtilFunctions:
     """Class to define the utility functions"""

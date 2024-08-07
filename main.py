@@ -11,6 +11,7 @@ from krt_vidhaana import KrtVidhaana
 from praakrita_kaarya import PraakritaKaaraya
 from sandhi_kaarya import SandhiKaarya
 from upasarga_kaarya import UpasargaKaarya
+from unaadi_vidhaana import UnaadiVidhaana
 
 
 class CreatePrakriya:
@@ -50,20 +51,34 @@ class CreatePrakriya:
         AngaKaarya(pp)
         SandhiKaarya(pp)
 
+    @staticmethod
+    def add_unaadi(pp: Prakriya, krt: str):
+        """Add a Krt to the Prakriya"""
+
+        UnaadiVidhaana(pp, krt)
+        AngaKaarya(pp)
+        SandhiKaarya(pp)
 
 
 def main():
     """Main function"""
 
     pp = Prakriya()
-    CreatePrakriya.add_dhaatu(pp, 1205)
-    CreatePrakriya.add_upasarga(pp, "सु")
-    CreatePrakriya.add_upasarga(pp, "आङ्")
-    CreatePrakriya.add_upasarga(pp, "अधि")
-    CreatePrakriya.add_krt(pp, "घञ्", Krdartha.BHAAVA)
+
+    CreatePrakriya.add_dhaatu(pp, 2095)
+    CreatePrakriya.add_unaadi(pp, "असुन्")
+
+
+    # CreatePrakriya.add_dhaatu(pp, 1136)
+    # CreatePrakriya.add_unaadi(pp, "डो")
+
+    # CreatePrakriya.add_dhaatu(pp, 1205)
+    # CreatePrakriya.add_upasarga(pp, "सु")
+    # CreatePrakriya.add_upasarga(pp, "आङ्")
+    # CreatePrakriya.add_upasarga(pp, "अधि")
+    # CreatePrakriya.add_krt(pp, "घञ्", Krdartha.BHAAVA)
 
     pp.combine()
-
 
     with open("prakriya.txt", "w", encoding="utf-8") as ff:
         ff.write(pp.__repr__())
