@@ -20,6 +20,7 @@ class KrtVidhaana:
     def __post_init__(self):
 
         self.sutra_list = [
+            sutra_list.SutraThreeThreeFiftySeven(),
             sutra_list.SutraThreeThreeEighteen(),
         ]
 

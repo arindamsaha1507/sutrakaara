@@ -17,11 +17,16 @@ class AngaKaarya:
 
         self.sutra_list = [
 
-            sutra_list.SutraSixOneSixtySeven(),
+            sutra_list.SutraThreeFourOneHundredFourteen(),
 
             sutra_list.SutraSevenTwoOneHundredFifteen(),
             sutra_list.SutraSixFourOneHundredFortyThree(),
             sutra_list.SutraSixOneFifteen(),
+
+            sutra_list.SutraSevenThreeEightyFour(),
+
+            sutra_list.SutraSixOneSixtySeven(),
+
         ]
 
         self.execute()

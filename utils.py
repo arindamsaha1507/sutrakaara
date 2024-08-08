@@ -31,6 +31,9 @@ class KhandaType(Enum):
     TADDHITA = "तद्धित"
     KRIDANTA = "कृदन्त"
     TADDHITAANTA = "तद्धितान्त"
+    SAARVADHAATUKA = "सार्वधातुक"
+    AARDHADHAATUKA = "आर्धधातुक"
+    KRTITAGUNA = "कृतितगुण"
 
 
 SUP = [
