@@ -16,8 +16,12 @@ class AngaKaarya:
     def __post_init__(self):
 
         self.sutra_list = [
+
+            sutra_list.SutraSixOneSixtySeven(),
+
             sutra_list.SutraSevenTwoOneHundredFifteen(),
             sutra_list.SutraSixFourOneHundredFortyThree(),
+            sutra_list.SutraSixOneFifteen(),
         ]
 
         self.execute()

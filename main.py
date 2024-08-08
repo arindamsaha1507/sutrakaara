@@ -65,8 +65,11 @@ def main():
 
     pp = Prakriya()
 
-    CreatePrakriya.add_dhaatu(pp, 2095)
-    CreatePrakriya.add_unaadi(pp, "असुन्")
+    CreatePrakriya.add_dhaatu(pp, 1222)
+    CreatePrakriya.add_unaadi(pp, "क्विप्")
+
+    # CreatePrakriya.add_dhaatu(pp, 2095)
+    # CreatePrakriya.add_unaadi(pp, "असुन्")
 
 
     # CreatePrakriya.add_dhaatu(pp, 1136)

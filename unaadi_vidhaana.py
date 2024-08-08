@@ -19,6 +19,7 @@ class UnaadiVidhaana:
     def __post_init__(self):
 
         self.sutra_list = [
+            sutra_list.UnaadiTwoFiftyEight(),
             sutra_list.UnaadiTwoSixtySeven(),
             sutra_list.UnaadiFourOneHundredEightyEight(),
         ]
