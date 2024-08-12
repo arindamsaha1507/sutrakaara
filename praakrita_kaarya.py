@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 from utils import Prakriya
-import sutra_list
+import sutra.sutra_list as sutra_list
 from vinyaasa import get_vinyaasa
 
 

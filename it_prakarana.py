@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 
 from utils import Prakriya, UtilFunctions
-import sutra_list
+import sutra.sutra_list as sutra_list
 
 
 @dataclass
