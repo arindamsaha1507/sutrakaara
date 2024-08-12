@@ -1643,7 +1643,7 @@ class SutraSevenTwoOneHundredFifteen(Sutra):
             if KhandaType.PRATYAAYA in khanda.typ
             and ("ञ्" in khanda.it or "ण्" in khanda.it)
             and get_vinyaasa(prakriya.vartamaana_sthiti[idx - 1].roopa)[-1]
-            in ["इ", "उ", "ऋ", "ऌ"]
+            in expand_pratyahaara("इक्")
         ]
 
         if not aa:
@@ -1659,18 +1659,18 @@ class SutraSevenTwoOneHundredFifteen(Sutra):
             if KhandaType.PRATYAAYA in khanda.typ
             and ("ञ्" in khanda.it or "ण्" in khanda.it)
             and get_vinyaasa(prakriya.vartamaana_sthiti[idx - 1].roopa)[-1]
-            in ["इ", "उ", "ऋ", "ऌ"]
+            in expand_pratyahaara("इक्")
         ][0]
 
         idx, anga = aa
 
         new_anga = copy.deepcopy(anga)
         vinyaasa = get_vinyaasa(anga.roopa)
-        if vinyaasa[-1] == "इ":
+        if vinyaasa[-1] in ["इ", "ई"]:
             vinyaasa[-1] = "ऐ"
-        elif vinyaasa[-1] == "उ":
+        elif vinyaasa[-1] in ["उ", "ऊ"]:
             vinyaasa[-1] = "औ"
-        elif vinyaasa[-1] == "ऋ":
+        elif vinyaasa[-1] in ["ऋ", "ॠ"]:
             vinyaasa[-1] = "आ"
             vinyaasa.append("र्")
         elif vinyaasa[-1] == "ऌ":
