@@ -260,7 +260,7 @@ class SutraOneThreeOne(Sutra):
         # pylint: disable=arguments-differ
 
         dhaatu = Dhaatu(moola=moola)
-        self.push(prakriya, [dhaatu], f"{dhaatu.gana}स्य धातुः")
+        self.push(prakriya, [dhaatu], f"{dhaatu.gana.value}गणस्य धातुः")
 
     def call(self, praakriya: Prakriya, moola: str):
         """Call the Sutra"""

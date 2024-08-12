@@ -87,7 +87,7 @@ def main():
     pp.combine()
 
     with open("prakriya.txt", "w", encoding="utf-8") as ff:
-        ff.write(pp.__repr__())
+        ff.write(str(pp))
         ff.write("\n")
         ff.write(pp.final)
 

@@ -208,10 +208,12 @@ class Prakriya:
 
         ss = "\n".join(
             [
-                f"{ii} : {jj} : {kk}"
+                f"| {ii} | {jj} | {kk} |"
                 for ii, jj, kk in zip(self.sthiti, self.sutra, self.tippani)
             ]
         )
+
+        ss = "स्थिति | सूत्र | टिप्पणी |\n |:---:|:---:|:---:|\n" + ss
         return ss
 
     def add_to_prakriya(self, sthiti: list[Khanda], sutra: str, tippani: str):
