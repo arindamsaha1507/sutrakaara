@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 
 from utils import Prakriya
-from main import CreatePrakriya
+from prakriya_maker import CreatePrakriya
 
 st.title("प्रक्रिया विश्लेषक")
 

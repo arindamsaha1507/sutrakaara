@@ -8,32 +8,6 @@ from varna import vyanjana, sankhyaa
 from vinyaasa import get_shabda, get_vinyaasa
 
 
-class KhandaType(Enum):
-    """Enum to represent the type of Khanda"""
-
-    DHAATU = "धातु"
-    PRATYAAYA = "प्रत्यय"
-    AAGAMA = "आगम"
-    NIPAATA = "निपात"
-    SVARAADI = "स्वरादि"
-    AVYAYA = "अव्यय"
-    GANAPAATHA = "गणपाठ"
-    UPASARGA = "उपसर्ग"
-    PRAADI = "प्रादि"
-    PRAATIPADIKA = "प्रातिपदिक"
-    PRATYAYA = "प्रत्यय"
-    SUP = "सुप्"
-    TIN = "तिङ्"
-    PADA = "पद"
-    SUBANTA = "सुबन्त"
-    TINGANTA = "तिङन्त"
-    KRT = "कृत्"
-    TADDHITA = "तद्धित"
-    KRIDANTA = "कृदन्त"
-    TADDHITAANTA = "तद्धितान्त"
-    SAARVADHAATUKA = "सार्वधातुक"
-    AARDHADHAATUKA = "आर्धधातुक"
-    KRTITAGUNA = "कृतितगुण"
 
 
 SUP = [
@@ -60,6 +34,32 @@ SUP = [
     "सुप्",
 ]
 
+class KhandaType(Enum):
+    """Enum to represent the type of Khanda"""
+
+    DHAATU = "धातु"
+    PRATYAAYA = "प्रत्यय"
+    AAGAMA = "आगम"
+    NIPAATA = "निपात"
+    SVARAADI = "स्वरादि"
+    AVYAYA = "अव्यय"
+    GANAPAATHA = "गणपाठ"
+    UPASARGA = "उपसर्ग"
+    PRAADI = "प्रादि"
+    PRAATIPADIKA = "प्रातिपदिक"
+    PRATYAYA = "प्रत्यय"
+    SUP = "सुप्"
+    TIN = "तिङ्"
+    PADA = "पद"
+    SUBANTA = "सुबन्त"
+    TINGANTA = "तिङन्त"
+    KRT = "कृत्"
+    TADDHITA = "तद्धित"
+    KRIDANTA = "कृदन्त"
+    TADDHITAANTA = "तद्धितान्त"
+    SAARVADHAATUKA = "सार्वधातुक"
+    AARDHADHAATUKA = "आर्धधातुक"
+    KRTITAGUNA = "कृतितगुण"
 
 class Krdartha(Enum):
     """Enum to represent the Krdartha"""
