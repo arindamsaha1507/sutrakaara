@@ -59,7 +59,6 @@ def stage_two(inputs, button, alt_button, outputs):
         st.session_state["stage"] = 3
         st.session_state["upasarga"] = st.session_state["upasarga"].strip()
         upp = st.session_state["upasarga"].split(" ")
-        print(upp)
         st.session_state["upasarga"] = " + ".join(upp)
 
     outputs.write(str(pp))
@@ -82,6 +81,8 @@ def stage_three(inputs, alt_inputs, button, outputs):
 
     if button:
         artha = Krdartha(artha)
+        print(artha)
+        print(pratyaya)
         CreatePrakriya.add_krt(pp, pratyaya, artha)
         st.session_state["stage"] = 4
         st.session_state["pratyaya"] = pratyaya
@@ -127,9 +128,15 @@ def app():
         outputs.empty()
 
         st.write("## परिणाम")
-        st.write(
-            f"### {st.session_state['upasarga']} + {st.session_state['dhaatu']} + {st.session_state['pratyaya']} = {st.session_state['pp'].final}"
-        )
+
+        if st.session_state["upasarga"] == "":
+            st.write(
+                f"### {st.session_state['dhaatu']} + {st.session_state['pratyaya']} = {st.session_state['pp'].final}"
+            )
+        else:
+            st.write(
+                f"### {st.session_state['upasarga']} + {st.session_state['dhaatu']} + {st.session_state['pratyaya']} = {st.session_state['pp'].final}"
+            )
 
         button = st.button("नवं प्रक्रियां प्रारम्भ", key="restart")
         if button:
@@ -150,6 +157,9 @@ def app():
                 )
                 ff.write("\n")
                 ff.write(str(st.session_state["pp"]))
+
+        st.write("## प्रक्रिया")
+        st.write(str(st.session_state["pp"]))
 
 
 if __name__ == "__main__":

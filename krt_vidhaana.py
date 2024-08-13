@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass, field
 
-from utils import Prakriya, Krdartha
+from utils import Prakriya, Krdartha, KhandaType
 import sutra.sutra_list as sutra_list
 
 import it_prakarana
@@ -21,6 +21,7 @@ class KrtVidhaana:
 
         self.sutra_list = [
             sutra_list.SutraThreeThreeFiftySeven(),
+            sutra_list.SutraThreeThreeFiftyEight(),
             sutra_list.SutraThreeThreeEighteen(),
         ]
 
@@ -39,3 +40,6 @@ class KrtVidhaana:
 
         for sutra in self.sutra_list:
             sutra.call(self.prakriya, self.krt, self.artha)
+
+        if KhandaType.KRT not in self.prakriya.vartamaana_sthiti[-1].typ:
+            raise ValueError("Krt not added to the Prakriya")
