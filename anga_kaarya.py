@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 
 from utils import Prakriya
 import sutra.sutra_list as sutra_list
+import sutra.adhyaaya_three as adhyaaya_three
 
 
 @dataclass
@@ -17,7 +18,7 @@ class AngaKaarya:
 
         self.sutra_list = [
 
-            sutra_list.SutraThreeFourOneHundredFourteen(),
+            adhyaaya_three.SutraThreeFourOneHundredFourteen(),
 
             sutra_list.SutraSevenTwoOneHundredFifteen(),
             sutra_list.SutraSevenTwoOneHundredSixteen(),

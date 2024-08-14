@@ -3,7 +3,7 @@
 from dataclasses import dataclass, field
 
 from utils import Prakriya, Krdartha, KhandaType
-import sutra.sutra_list as sutra_list
+import sutra.adhyaaya_three as adhyaaya_three
 
 import it_prakarana
 
@@ -20,9 +20,8 @@ class KrtVidhaana:
     def __post_init__(self):
 
         self.sutra_list = [
-            sutra_list.SutraThreeThreeFiftySeven(),
-            sutra_list.SutraThreeThreeFiftyEight(),
-            sutra_list.SutraThreeThreeEighteen(),
+            adhyaaya_three.SutraThreeThreeFiftySeven(),
+            adhyaaya_three.SutraThreeThreeEighteen(),
         ]
 
         self.execute()
