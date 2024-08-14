@@ -60,6 +60,7 @@ class KhandaType(Enum):
     SAARVADHAATUKA = "सार्वधातुक"
     AARDHADHAATUKA = "आर्धधातुक"
     KRTITAGUNA = "कृतितगुण"
+    ANUDATTOPADESHA = "अनुदात्तोपदेश"
 
 class Krdartha(Enum):
     """Enum to represent the Krdartha"""

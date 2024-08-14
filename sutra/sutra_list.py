@@ -50,9 +50,11 @@ class SutraUtils:
             return None
 
         return khanda
-    
+
     @staticmethod
-    def check_pratyaya_and_artha(pratyaya: str, artha: Krdartha, expected_pratyaya: str, expected_artha: Krdartha):
+    def check_pratyaya_and_artha(
+        pratyaya: str, artha: Krdartha, expected_pratyaya: str, expected_artha: Krdartha
+    ):
         """Check if the pratyaya and artha are compatible"""
 
         if artha != expected_artha:
@@ -62,6 +64,7 @@ class SutraUtils:
             return False
 
         return True
+
 
 @dataclass
 class SutraOneOneThirtySeven(Sutra):
@@ -1283,6 +1286,63 @@ class SutraSixOneOneHundredEight(Sutra):
         if self.check(prakriya, khanda):
             self.apply(prakriya, khanda)
 
+
+@dataclass
+class SutraSixFourThirtySeven(Sutra):
+    """अनुदात्तोपदेशवनतितनोत्यादीनामनुनासिक लोपो झलि क्ङिति ६.४.३७"""
+
+    def __post_init__(self):
+        self.define("अनुदात्तोपदेशवनतितनोत्यादीनामनुनासिक लोपो झलि क्ङिति ६.४.३७")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+
+        pratyaya = SutraUtils.get_khanda(
+            prakriya, [KhandaType.PRATYAAYA, KhandaType.KRT]
+        )
+
+        if not pratyaya:
+            return False
+
+        if len(pratyaya) != 1:
+            return False
+
+        pratyaya = pratyaya[0][1]
+
+        if "क्" not in pratyaya.it and "ङ्" not in pratyaya.it:
+            return False
+
+        anga = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
+
+        if not anga:
+            return False
+
+        if len(anga) != 1:
+            return False
+
+        anga = anga[0][1]
+        anta = get_vinyaasa(anga.roopa)[-1]
+
+        if anta not in ["ङ्", "ञ्", "ण्", "न्", "म्"]:
+            return False
+
+        if (
+            KhandaType.ANUDATTOPADESHA not in anga.typ
+            and Gana.TANAADI not in anga.typ
+            and anga.upadesha != "वनँ"
+        ):
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        anga = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]
+
+        vinyaasa = get_vinyaasa(anga.roopa)
+        anga.roopa = get_shabda(vinyaasa[:-1])
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "अनुनासिक लोपः")
 
 @dataclass
 class SutraSixFourOneHundredFortyThree(Sutra):

@@ -1,7 +1,7 @@
 """Praakrita Kaaryaa"""
 
 from dataclasses import dataclass, field
-from utils import Prakriya
+from utils import Prakriya, KhandaType
 import sutra.sutra_list as sutra_list
 from vinyaasa import get_vinyaasa
 
@@ -18,6 +18,8 @@ def remove_svara_markers(prakriya: Prakriya):
 
         khanda.roopa = khanda.roopa.replace("॒", "")
         khanda.roopa = khanda.roopa.replace("॑", "")
+
+        khanda.typ.append(KhandaType.ANUDATTOPADESHA)
 
         prakriya.add_to_prakriya(prakriya.vartamaana_sthiti, "-", "स्वरमात्राः अपाकृताः")
 

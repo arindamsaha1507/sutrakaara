@@ -22,7 +22,11 @@ class AngaKaarya:
 
             sutra_list.SutraSevenTwoOneHundredFifteen(),
             sutra_list.SutraSevenTwoOneHundredSixteen(),
+
             sutra_list.SutraSixFourOneHundredFortyThree(),
+
+            sutra_list.SutraSixFourThirtySeven(),
+
             sutra_list.SutraSixOneFifteen(),
 
             sutra_list.SutraSevenThreeEightyFour(),

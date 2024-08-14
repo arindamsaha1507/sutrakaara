@@ -65,14 +65,18 @@ def main():
 
     pp = Prakriya()
 
+    CreatePrakriya.add_dhaatu(pp, 988)
+    CreatePrakriya.add_upasarga(pp, "नि")
+    CreatePrakriya.add_krt(pp, "क्त", Krdartha.BHOOTA)
+
     # CreatePrakriya.add_dhaatu(pp, 0)
     # CreatePrakriya.add_krt(pp, "घञ्", Krdartha.BHAAVA)
 
     # CreatePrakriya.add_dhaatu(pp, 1704)
     # CreatePrakriya.add_krt(pp, "अप्", Krdartha.BHAAVA)
 
-    CreatePrakriya.add_dhaatu(pp, 1435)
-    CreatePrakriya.add_krt(pp, "अप्", Krdartha.BHAAVA)
+    # CreatePrakriya.add_dhaatu(pp, 1435)
+    # CreatePrakriya.add_krt(pp, "अप्", Krdartha.BHAAVA)
 
     # CreatePrakriya.add_dhaatu(pp, 1222)
     # CreatePrakriya.add_unaadi(pp, "क्विप्")

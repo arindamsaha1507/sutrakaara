@@ -9,6 +9,44 @@ from vinyaasa import get_vinyaasa
 
 from krt import Krt
 
+@dataclass
+class SutraThreeTwoOneHundredTwo(Sutra):
+    """निष्ठा ३.२.१०२"""
+
+    def __post_init__(self):
+        self.define("निष्ठा ३.२.१०२")
+
+    @staticmethod
+    def check(prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        if not (pratyaya in ["क्त", "क्तवतुँ"] and artha == Krdartha.BHOOTA):
+            return False
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
+        if not khanda:
+            return False
+        if len(khanda) != 1:
+            return False
+
+        return True
+    
+    def apply(self, prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+            
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]
+        khanda_index = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][0]
+
+        krt = Krt(moola=pratyaya, mukhya=khanda)
+        sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
+        sthitis.insert(khanda_index + 1, krt)
+
+        self.push(prakriya, sthitis, f"{artha.value}-अर्थे {pratyaya} प्रत्ययः")
+
+    def call(self, praakriya: Prakriya, pratyaya: str, artha: Krdartha):
+        """Call the Sutra"""
+        if self.check(praakriya, artha, pratyaya):
+            self.apply(praakriya, artha, pratyaya)
 
 @dataclass
 class SutraThreeThreeEighteen(Sutra):
