@@ -21,6 +21,7 @@ class UnaadiVidhaana:
         self.sutra_list = [
             sutra_list.UnaadiTwoFiftyEight(),
             sutra_list.UnaadiTwoSixtySeven(),
+            sutra_list.UnaadiFourOneHundredSeventySeven(),
             sutra_list.UnaadiFourOneHundredEightyEight(),
         ]
 

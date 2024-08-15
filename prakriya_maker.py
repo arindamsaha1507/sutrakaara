@@ -10,6 +10,7 @@ from it_prakarana import ItSanjna
 from krt_vidhaana import KrtVidhaana
 from praakrita_kaarya import PraakritaKaaraya
 from sandhi_kaarya import SandhiKaarya
+from tripaadi_kaarya import TripaadiKaarya
 from upasarga_kaarya import UpasargaKaarya
 from unaadi_vidhaana import UnaadiVidhaana
 
@@ -50,6 +51,7 @@ class CreatePrakriya:
         KrtVidhaana(pp, krt, artha)
         AngaKaarya(pp)
         SandhiKaarya(pp)
+        TripaadiKaarya(pp)
 
     @staticmethod
     def add_unaadi(pp: Prakriya, krt: str):
@@ -58,6 +60,7 @@ class CreatePrakriya:
         UnaadiVidhaana(pp, krt)
         AngaKaarya(pp)
         SandhiKaarya(pp)
+        TripaadiKaarya(pp)
 
 
 def main():
@@ -65,9 +68,12 @@ def main():
 
     pp = Prakriya()
 
-    CreatePrakriya.add_dhaatu(pp, 988)
-    CreatePrakriya.add_upasarga(pp, "नि")
-    CreatePrakriya.add_krt(pp, "क्त", Krdartha.BHOOTA)
+    CreatePrakriya.add_dhaatu(pp, 1215)
+    CreatePrakriya.add_unaadi(pp, "डुम्सुँन्")
+
+    # CreatePrakriya.add_dhaatu(pp, 988)
+    # CreatePrakriya.add_upasarga(pp, "नि")
+    # CreatePrakriya.add_krt(pp, "क्त", Krdartha.BHOOTA)
 
     # CreatePrakriya.add_dhaatu(pp, 0)
     # CreatePrakriya.add_krt(pp, "घञ्", Krdartha.BHAAVA)
