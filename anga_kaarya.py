@@ -20,6 +20,9 @@ class AngaKaarya:
 
             adhyaaya_three.SutraThreeFourOneHundredFourteen(),
 
+            sutra_list.SutraSixFourFortyEight(),
+            sutra_list.SutraSixFourFiftyOne(),
+
             sutra_list.SutraSevenTwoOneHundredFifteen(),
             sutra_list.SutraSevenTwoOneHundredSixteen(),
 

@@ -1349,6 +1349,91 @@ class SutraSixFourThirtySeven(Sutra):
 
 
 @dataclass
+class SutraSixFourFortyEight(Sutra):
+    """अतो लोपः ६.४.४८"""
+
+    def __post_init__(self):
+        self.define("अतो लोपः ६.४.४८")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
+
+        if not khanda:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        khanda = khanda[0][1]
+
+        if get_vinyaasa(khanda.roopa)[-1] != "अ":
+            return False
+
+        pratyaya = SutraUtils.get_khanda(prakriya, KhandaType.PRATYAAYA)
+
+        if not pratyaya:
+            return False
+
+        if KhandaType.AARDHADHAATUKA not in pratyaya[0][1].typ:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]
+
+        vinyaasa = get_vinyaasa(khanda.roopa)
+        khanda.roopa = get_shabda(vinyaasa[:-1])
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "अकारलोपः")
+
+
+@dataclass
+class SutraSixFourFiftyOne(Sutra):
+    """णेरनिटि ६.४.५१"""
+
+    def __post_init__(self):
+        self.define("णेरनिटि ६.४.५१")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.NIJANTA)
+
+        if not khanda:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        khanda = khanda[0][1]
+
+        pratyaya = SutraUtils.get_khanda(prakriya, KhandaType.AARDHADHAATUKA)
+
+        if not pratyaya:
+            return False
+
+        pratyaya = pratyaya[0][1]
+
+        if pratyaya.upadesha in ["तृच्", "तृन्", "क्त्वा", "तुमुन्", "क्त", "क्तवतुँ"]:
+            return False
+
+        return True
+
+    def apply(self, prakriya):
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.NIJANTA)[0][1]
+
+        vinyaasa = get_vinyaasa(khanda.roopa)
+        khanda.roopa = get_shabda(vinyaasa[:-1])
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "णिच्-प्रत्ययस्य लोपः")
+
+
+@dataclass
 class SutraSixFourOneHundredFortyThree(Sutra):
     """टेः ६.४.१४३"""
 
@@ -1494,6 +1579,11 @@ class SutraSevenTwoOneHundredFifteen(Sutra):
         if not aa:
             return False
 
+        aa = aa[0][1]
+
+        if get_vinyaasa(aa.upadesha)[-1] == "अ":
+            return False
+
         return True
 
     def apply(self, prakriya: Prakriya):
@@ -1568,6 +1658,11 @@ class SutraSevenTwoOneHundredSixteen(Sutra):
         if not aa:
             return False
 
+        aa = aa[0][1]
+
+        if get_vinyaasa(aa.upadesha)[-1] == "अ":
+            return False
+
         return True
 
     def apply(self, prakriya: Prakriya):
@@ -1629,6 +1724,9 @@ class SutraSevenThreeEightyFour(Sutra):
         anga = prakriya.vartamaana_sthiti[khanda_index - 1]
 
         if get_vinyaasa(anga.roopa)[-1] not in ["इ", "ई", "उ", "ऊ", "ऋ", "ॠ", "ऌ"]:
+            return False
+
+        if get_vinyaasa(anga.upadesha)[-1] == "अ":
             return False
 
         return True

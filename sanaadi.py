@@ -1,4 +1,4 @@
-"""Module to represent a Krt Pratyaya"""
+"""Module to represent a Sanaadi Pratyaya"""
 
 from dataclasses import dataclass, field
 
@@ -6,7 +6,7 @@ from utils import Khanda, KhandaType
 
 
 @dataclass
-class Krt(Khanda):
+class Sanaadi(Khanda):
     """Class to represent a Krt Pratyaya"""
 
     moola: str = field(default=None)
@@ -14,10 +14,9 @@ class Krt(Khanda):
     uchchaarana: list = field(default_factory=list)
 
     def __post_init__(self):
-        self.typ.append(KhandaType.KRT)
+        self.typ.append(KhandaType.SANAADI)
         self.typ.append(KhandaType.PRATYAAYA)
         self.roopa = self.moola
-        self.upadesha = self.moola
 
     def __repr__(self) -> str:
         # pylint: disable=useless-super-delegation

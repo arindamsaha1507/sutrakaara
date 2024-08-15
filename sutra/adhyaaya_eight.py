@@ -34,7 +34,6 @@ class SutraEightThreeTwentyFour(Sutra):
 
         prakriya.replace_index(indices[0], "ं")
         self.push(prakriya, prakriya.vartamaana_sthiti, "अनुस्वार अदेशः")
-        print(prakriya.string)
 
 
     def call(self, prakriya: Prakriya, indices: tuple[int, int]):

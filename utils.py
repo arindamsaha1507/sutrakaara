@@ -55,12 +55,14 @@ class KhandaType(Enum):
     TINGANTA = "तिङन्त"
     KRT = "कृत्"
     TADDHITA = "तद्धित"
+    SANAADI = "सनादि"
     KRIDANTA = "कृदन्त"
     TADDHITAANTA = "तद्धितान्त"
     SAARVADHAATUKA = "सार्वधातुक"
     AARDHADHAATUKA = "आर्धधातुक"
     KRTITAGUNA = "कृतितगुण"
     ANUDATTOPADESHA = "अनुदात्तोपदेश"
+    NIJANTA = "णिजन्त"
 
 class Krdartha(Enum):
     """Enum to represent the Krdartha"""

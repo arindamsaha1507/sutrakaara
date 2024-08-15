@@ -3,11 +3,47 @@
 from dataclasses import dataclass
 import copy
 
+from dhaatu import Gana
 from utils import Prakriya, Sutra, KhandaType, Krdartha
+from sanaadi import Sanaadi
 from sutra.sutra_list import SutraUtils
 from vinyaasa import get_vinyaasa
 
 from krt import Krt
+
+
+@dataclass
+class SutraThreeOneTwentyFive(Sutra):
+    """सत्यापपाशरूपवीणातूलश्लोकसेनालोमत्वचवर्मवर्णचूर्णचुरादिभ्यो णिच् ३.१.२५"""
+
+    def __post_init__(self):
+        self.define("सत्यापपाशरूपवीणातूलश्लोकसेनालोमत्वचवर्मवर्णचूर्णचुरादिभ्यो णिच् ३.१.२५")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+        khanda = SutraUtils.get_khanda(prakriya, [KhandaType.DHAATU, KhandaType.PRAATIPADIKA])
+        if not khanda:
+            return False
+        if len(khanda) != 1:
+            return False
+        khanda = khanda[0][1]
+
+        if KhandaType.PRAATIPADIKA in khanda.typ:
+            raise NotImplementedError("Praatipadika not implemented")
+        
+        if Gana.CHURAADI not in khanda.typ:
+            return False
+
+        return True
+    
+    def apply(self, prakriya: Prakriya):
+        khanda = SutraUtils.get_khanda(prakriya, [KhandaType.DHAATU, KhandaType.PRAATIPADIKA])[0][1]
+
+        pratyaya = Sanaadi(moola="णिच्", mukhya=khanda)
+
+        prakriya.vartamaana_sthiti.append(pratyaya)
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, f"{khanda.roopa} इत्यस्य अनुदात्तोपदेशः")
 
 @dataclass
 class SutraThreeTwoOneHundredTwo(Sutra):
