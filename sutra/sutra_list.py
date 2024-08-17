@@ -1903,6 +1903,52 @@ class UnaadiTwoSixtySeven(Unaadi):
 
 
 @dataclass
+class UnaadiFourOneHundredTwentyTwo(Unaadi):
+    """मनेरुच्च ४.१२२"""
+
+    def __post_init__(self):
+        self.define("मनेरुच्च ४.१२२")
+
+    @staticmethod
+    def check(prakriya: Prakriya, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        if pratyaya != "इन्":
+            return False
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
+
+        if not khanda:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        khanda = khanda[0][1]
+
+        if khanda.roopa != "मन्":
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]
+        khanda_index = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][0]
+
+        pratyaya = Krt(moola="इन्", mukhya=khanda)
+        prakriya.vartamaana_sthiti.insert(khanda_index + 1, pratyaya)
+        khanda.roopa = "मुन्"
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "इन्-प्रत्ययादेशः अकारस्य उकारश्च")
+
+    def call(self, prakriya: Prakriya, pratyaya: str):
+        """Call the Sutra"""
+        if self.check(prakriya, pratyaya):
+            self.apply(prakriya)
+
+
+@dataclass
 class UnaadiFourOneHundredSeventySeven(Unaadi):
     """पातेर्डुम्सुन् ४.१७७"""
 
