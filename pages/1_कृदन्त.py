@@ -58,8 +58,6 @@ def app():
     pp = st.session_state["pp"]
 
     if button:
-        # Reset Prakriya object
-        st.session_state["pp"] = Prakriya()
 
         # Add dhaatu
         dhaatu_num = dhaatus.index[dhaatus["नाम"] == dhaatu][0]
@@ -83,18 +81,16 @@ def app():
         st.session_state["pratyaya"] = pratyaya
 
         # Combine the prakriya steps and display the result
+        pp.combine()
         st.session_state["pp"] = pp
-        st.session_state["pp"].combine()
 
         st.write("## परिणाम")
+
+        string = f"{dhaatu} + {pratyaya} = {pp.final}"
         if st.session_state["upasarga"] == "":
-            st.write(
-                f"### {st.session_state['dhaatu']} + {st.session_state['pratyaya']} = {st.session_state['pp'].final}"
-            )
+            st.write(f"### {string}")
         else:
-            st.write(
-                f"### {st.session_state['upasarga']} + {st.session_state['dhaatu']} + {st.session_state['pratyaya']} = {st.session_state['pp'].final}"
-            )
+            st.write(f"### {st.session_state['upasarga']} + {string}")
 
         # Option to restart or save
         if st.button("नवं प्रक्रियां प्रारम्भ", key="restart"):
