@@ -67,6 +67,40 @@ class SutraUtils:
 
 
 @dataclass
+class SutraOneOneFive(Sutra):
+    """क्ङिति च १.१.५"""
+
+    def __post_init__(self):
+        self.define("क्ङिति च १.१.५")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+        khanda = [
+            khanda
+            for khanda in prakriya.vartamaana_sthiti
+            if (
+                KhandaType.AARDHADHAATUKA in khanda.typ
+                or KhandaType.SAARVADHAATUKA in khanda.typ
+            )
+            and KhandaType.KRTITAGUNA not in khanda.typ
+        ]
+
+        if not khanda:
+            return False
+
+        khanda = khanda[0]
+
+        if "क्" not in khanda.it and "ङ्" not in khanda.it and "ग्" not in khanda.it:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "गुणवृद्धिनिषेधः")
+
+
+@dataclass
 class SutraOneOneThirtySeven(Sutra):
     """स्वरादिनिपातमव्ययम् १.१.३७"""
 
@@ -1695,6 +1729,11 @@ class SutraSevenThreeEightyFour(Sutra):
 
     @staticmethod
     def check(prakriya: Prakriya):
+
+        sutra = SutraOneOneFive()
+        sutra(prakriya)
+        if sutra.check(prakriya):
+            return False
 
         khanda = [
             khanda
