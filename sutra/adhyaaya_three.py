@@ -318,6 +318,11 @@ class SutraThreeFourOneHundredFourteen(Sutra):
 
         if SutraThreeFourOneHundredThirteen.check(prakriya):
             return False
+        
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
+
+        if not khanda:
+            return False
 
         return True
 

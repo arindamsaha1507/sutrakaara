@@ -2,14 +2,16 @@
 
 import yaml
 
-from utils import Prakriya, Krdartha
+from utils import Prakriya, Krdartha, Taddhitaartha
 
 from anga_kaarya import AngaKaarya
 from dhaatu_prakarana import DhaatuSanjna
 from it_prakarana import ItSanjna
 from krt_vidhaana import KrtVidhaana
 from praakrita_kaarya import PraakritaKaaraya
+from praatipadika import Praatipadika
 from sandhi_kaarya import SandhiKaarya
+from taddhita_vidhaana import TaddhitaVidhaana
 from tripaadi_kaarya import TripaadiKaarya
 from upasarga_kaarya import UpasargaKaarya
 from unaadi_vidhaana import UnaadiVidhaana
@@ -62,14 +64,33 @@ class CreatePrakriya:
         SandhiKaarya(pp)
         TripaadiKaarya(pp)
 
+    @staticmethod
+    def add_praatipadika(pp: Prakriya, praatipadika: str):
+        """Add a Krt to the Prakriya"""
+
+        sthiti = [Praatipadika(moola=praatipadika)]
+        pp.add_to_prakriya(sthiti, "-", "प्रातिपदिकम्")
+
+    @staticmethod
+    def add_taddhita(pp: Prakriya, taddhita: str, artha: Taddhitaartha):
+        """Add a Taddhita to the Prakriya"""
+
+        TaddhitaVidhaana(pp, taddhita, artha)
+        AngaKaarya(pp)
+        SandhiKaarya(pp)
+        TripaadiKaarya(pp)
+
 
 def main():
     """Main function"""
 
     pp = Prakriya()
 
-    CreatePrakriya.add_dhaatu(pp, 1673)
-    CreatePrakriya.add_unaadi(pp, "इन्")
+    CreatePrakriya.add_praatipadika(pp, "नर")
+    CreatePrakriya.add_taddhita(pp, "अण्", Taddhitaartha.TASYA_IDAM)
+
+    # CreatePrakriya.add_dhaatu(pp, 1673)
+    # CreatePrakriya.add_unaadi(pp, "इन्")
 
     # CreatePrakriya.add_dhaatu(pp, 2181)
     # CreatePrakriya.add_krt(pp, "घञ्", Krdartha.BHAAVA)
@@ -95,7 +116,6 @@ def main():
 
     # CreatePrakriya.add_dhaatu(pp, 2095)
     # CreatePrakriya.add_unaadi(pp, "असुन्")
-
 
     # CreatePrakriya.add_dhaatu(pp, 1136)
     # CreatePrakriya.add_unaadi(pp, "डो")

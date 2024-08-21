@@ -81,6 +81,12 @@ class Krdartha(Enum):
     DHAATUSAMBANDHI = "धातुसम्बन्धी"
 
 
+class Taddhitaartha(Enum):
+    """Enum to represent the Taddhitaartha"""
+
+    TASYA_APATYAM = "तस्य अपत्यम्"
+    TASYA_IDAM = "तस्य इदम्"
+
 @dataclass
 class Khanda(ABC):
     """Abstract base class for Khanda"""
