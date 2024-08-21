@@ -56,6 +56,7 @@ class KhandaType(Enum):
     KRT = "कृत्"
     TADDHITA = "तद्धित"
     SANAADI = "सनादि"
+    STRI = "स्त्री"
     KRIDANTA = "कृदन्त"
     TADDHITAANTA = "तद्धितान्त"
     SAARVADHAATUKA = "सार्वधातुक"
@@ -63,6 +64,7 @@ class KhandaType(Enum):
     KRTITAGUNA = "कृतितगुण"
     ANUDATTOPADESHA = "अनुदात्तोपदेश"
     NIJANTA = "णिजन्त"
+    BHA = "भ"
 
 class Krdartha(Enum):
     """Enum to represent the Krdartha"""

@@ -92,26 +92,25 @@ def app():
         else:
             st.write(f"### {st.session_state['upasarga']} + {string}")
 
-        # Option to restart or save
-        if st.button("नवं प्रक्रियां प्रारम्भ", key="restart"):
-            st.session_state["pp"] = Prakriya()
-            st.session_state["dhaatu"] = ""
-            st.session_state["upasarga"] = ""
-            st.session_state["pratyaya"] = ""
-
-        if st.button("प्रक्रियां संरक्ष", key="save"):
-            with open(
-                f"prakriya/{st.session_state['pp'].final}.md", "a", encoding="utf-8"
-            ) as ff:
-                ff.write(
-                    f"# {st.session_state['upasarga']} + {st.session_state['dhaatu']} + {st.session_state['pratyaya']}"
-                )
-                ff.write("\n")
-                ff.write(str(st.session_state["pp"]))
-
-        st.write("## प्रक्रिया")
-        st.write(str(st.session_state["pp"]))
+    # Option to restart or save
+    if st.button("नवं प्रक्रियां प्रारम्भ", key="restart"):
         st.session_state["pp"] = Prakriya()
+        st.session_state["dhaatu"] = ""
+        st.session_state["upasarga"] = ""
+        st.session_state["pratyaya"] = ""
+
+    if st.button("प्रक्रियां संरक्ष", key="save"):
+        with open(
+            f"prakriya/{st.session_state['pp'].final}.md", "a", encoding="utf-8"
+        ) as ff:
+            ff.write(
+                f"# {st.session_state['upasarga']} + {st.session_state['dhaatu']} + {st.session_state['pratyaya']}"
+            )
+            ff.write("\n")
+            ff.write(str(st.session_state["pp"]))
+
+    st.write("## प्रक्रिया")
+    st.write(str(st.session_state["pp"]))
 
 
 app()

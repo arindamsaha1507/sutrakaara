@@ -21,6 +21,7 @@ class UnaadiVidhaana:
         self.sutra_list = [
             sutra_list.UnaadiTwoFiftyEight(),
             sutra_list.UnaadiTwoSixtySeven(),
+            sutra_list.UnaadiFourTwentyFive(),
             sutra_list.UnaadiFourOneHundredTwentyTwo(),
             sutra_list.UnaadiFourOneHundredSeventySeven(),
             sutra_list.UnaadiFourOneHundredEightyEight(),
@@ -28,7 +29,14 @@ class UnaadiVidhaana:
 
         self.execute()
 
-        it_prakarana.ItSanjna(self.prakriya)
+        khanda = [
+            khanda
+            for khanda in self.prakriya.vartamaana_sthiti
+            if khanda.aupadeshika
+        ]
+
+        if khanda:
+            it_prakarana.ItSanjna(self.prakriya)
 
         aupadeshika = it_prakarana.UtilFunctions.get_aupadeshika_khanda(
             self.prakriya, return_index=False

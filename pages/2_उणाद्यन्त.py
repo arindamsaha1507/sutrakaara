@@ -51,6 +51,7 @@ def app():
     button = st.button("प्रक्रिया योजय", key="process_button")
 
     pp = st.session_state["pp"]
+    print(pp)
 
     if button:
 
@@ -76,6 +77,7 @@ def app():
 
         # Combine the prakriya steps and display the result
         pp.combine()
+        print(pp)
         st.session_state["pp"] = pp
 
         st.write("## परिणाम")
@@ -86,26 +88,28 @@ def app():
         else:
             st.write(f"### {st.session_state['upasarga']} + {string}")
 
-        # Option to restart or save
-        if st.button("नवं प्रक्रियां प्रारम्भ", key="restart"):
-            st.session_state["pp"] = Prakriya()
-            st.session_state["dhaatu"] = ""
-            st.session_state["upasarga"] = ""
-            st.session_state["pratyaya"] = ""
-
-        if st.button("प्रक्रियां संरक्ष", key="save"):
-            with open(
-                f"prakriya/{st.session_state['pp'].final}.md", "a", encoding="utf-8"
-            ) as ff:
-                ff.write(
-                    f"# {st.session_state['upasarga']} + {st.session_state['dhaatu']} + {st.session_state['pratyaya']}"
-                )
-                ff.write("\n")
-                ff.write(str(st.session_state["pp"]))
-
-        st.write("## प्रक्रिया")
-        st.write(str(st.session_state["pp"]))
+    # Option to restart or save
+    if st.button("नवं प्रक्रियां प्रारम्भ", key="restart"):
+        print("Restarting prakriya")
         st.session_state["pp"] = Prakriya()
+        st.session_state["dhaatu"] = ""
+        st.session_state["upasarga"] = ""
+        st.session_state["pratyaya"] = ""
+
+    if st.button("प्रक्रियां संरक्ष", key="save"):
+        print("Saving prakriya")
+        with open(
+            f"prakriya/{st.session_state['pp'].final}.md", "a", encoding="utf-8"
+        ) as ff:
+            ff.write(
+                f"# {st.session_state['upasarga']} + {st.session_state['dhaatu']} + {st.session_state['pratyaya']}"
+            )
+            ff.write("\n")
+            ff.write(str(st.session_state["pp"]))
+
+    st.write("## प्रक्रिया")
+    st.write(str(st.session_state["pp"]))
+    # st.session_state["pp"] = Prakriya()
 
 
 app()

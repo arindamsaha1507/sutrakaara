@@ -5,9 +5,12 @@ import copy
 
 from utils import Prakriya, KhandaType, Unaadi, get_shabda, get_vinyaasa
 
+from aagama import Aagama
 from varna import svara
 from krt import Krt
-from sutra.sutra_list import SutraUtils
+from sutra.sutra_list import SutraUtils, SutraOneOneFortySix
+from it_prakarana import ItSanjna
+
 
 @dataclass
 class UnaadiTwoFiftyEight(Unaadi):
@@ -139,6 +142,69 @@ class UnaadiTwoSixtySeven(Unaadi):
         sthitis.insert(khanda_index + 1, pratyaya)
 
         self.push(prakriya, sthitis, "डोप्रत्ययादेशः")
+
+    def call(self, prakriya: Prakriya, pratyaya: str):
+        """Call the Sutra"""
+        if self.check(prakriya, pratyaya):
+            self.apply(prakriya)
+
+
+@dataclass
+class UnaadiFourTwentyFive(Unaadi):
+    """अलीकादयश्च ४.२५"""
+
+    def __post_init__(self):
+        self.define("अलीकादयश्च ४.२५")
+
+    @staticmethod
+    def check(prakriya: Prakriya, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        if pratyaya != "कीकच्":
+            return False
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
+
+        if not khanda:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]
+        khanda_index = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][0]
+
+        pratyaya = Krt(moola="कीकच्", mukhya=khanda)
+        prakriya.vartamaana_sthiti.insert(khanda_index + 1, pratyaya)
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "कीकच्प्रत्ययादेशः")
+
+        ItSanjna(prakriya)
+
+        if khanda.roopa == "वल्":
+
+            aagama = Aagama(moola="मुट्", mukhya=pratyaya, uchchaarana=[1])
+            prakriya.vartamaana_sthiti.insert(khanda_index + 2, aagama)
+
+            prakriya.add_to_prakriya(
+                prakriya.vartamaana_sthiti, "-", "बाहुलकात् प्रत्ययस्य मुट् आगमः"
+            )
+
+            aagama.remove_uchchaarana()
+
+            ucchaarana = get_vinyaasa(aagama.moola)[aagama.uchchaarana[0]]
+
+            prakriya.add_to_prakriya(
+                prakriya.vartamaana_sthiti, "-", f"{ucchaarana}कार उच्चारणार्थम्"
+            )
+
+            ItSanjna(prakriya)
+            SutraOneOneFortySix()(prakriya)
+
 
     def call(self, prakriya: Prakriya, pratyaya: str):
         """Call the Sutra"""

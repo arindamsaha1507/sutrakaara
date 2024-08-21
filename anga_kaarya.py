@@ -19,14 +19,17 @@ class AngaKaarya:
         self.sutra_list = [
 
             adhyaaya_three.SutraThreeFourOneHundredFourteen(),
+            sutra_list.SutraOneFourEighteen(),
 
             sutra_list.SutraSixFourFortyEight(),
             sutra_list.SutraSixFourFiftyOne(),
 
             sutra_list.SutraSevenTwoOneHundredFifteen(),
             sutra_list.SutraSevenTwoOneHundredSixteen(),
+            sutra_list.SutraSevenTwoOneHundredSeventeen(),
 
             sutra_list.SutraSixFourOneHundredFortyThree(),
+            sutra_list.SutraSixFourOneHundredFortyEight(),
 
             sutra_list.SutraSixFourThirtySeven(),
 
