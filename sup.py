@@ -20,6 +20,33 @@ class Sup(Khanda):
 
         self.typ.append(KhandaType.PRATYAYA)
         self.typ.append(KhandaType.SUP)
+        self.typ.append(KhandaType.VIBHAKTI)
+
+        if self.vibhakti == 1:
+            self.typ.append(KhandaType.PRATHAMAA)
+        elif self.vibhakti == 2:
+            self.typ.append(KhandaType.DVITIYAA)
+        elif self.vibhakti == 3:
+            self.typ.append(KhandaType.TRITIYAA)
+        elif self.vibhakti == 4:
+            self.typ.append(KhandaType.CHATURTHII)
+        elif self.vibhakti == 5:
+            self.typ.append(KhandaType.PANCHAMII)
+        elif self.vibhakti == 6:
+            self.typ.append(KhandaType.SHASHTHII)
+        elif self.vibhakti == 7:
+            self.typ.append(KhandaType.SAPTAMII)
+        elif self.vibhakti == 8:
+            self.typ.append(KhandaType.SAMBODHANAM)
+
+        if self.vachana == 1:
+            self.typ.append(KhandaType.EKAVACHANA)
+        elif self.vachana == 2:
+            self.typ.append(KhandaType.DVIVACHANA)
+        elif self.vachana == 3:
+            self.typ.append(KhandaType.BAHUVACHANA)
+
+
 
     @property
     def vibhakti(self):

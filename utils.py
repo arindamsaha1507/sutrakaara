@@ -65,6 +65,21 @@ class KhandaType(Enum):
     ANUDATTOPADESHA = "अनुदात्तोपदेश"
     NIJANTA = "णिजन्त"
     BHA = "भ"
+    VIBHAKTI = "विभक्ति"
+    PRATHAMAA = "प्रथमा"
+    DVITIYAA = "द्वितीया"
+    TRITIYAA = "तृतीया"
+    CHATURTHII = "चतुर्थी"
+    PANCHAMII = "पञ्चमी"
+    SHASHTHII = "षष्ठी"
+    SAPTAMII = "सप्तमी"
+    SAMBODHANAM = "सम्बोधनम्"
+    PRATHAMA_PURUSHA = "प्रथम पुरुष"
+    MADHYAMA_PURUSHA = "मध्यम पुरुष"
+    UTTAMA_PURUSHA = "उत्तम पुरुष"
+    EKAVACHANA = "एकवचन"
+    DVIVACHANA = "द्विवचन"
+    BAHUVACHANA = "बहुवचन"
 
 class Krdartha(Enum):
     """Enum to represent the Krdartha"""
@@ -86,8 +101,8 @@ class Krdartha(Enum):
 class Taddhitaartha(Enum):
     """Enum to represent the Taddhitaartha"""
 
-    TASYA_APATYAM = "तस्य अपत्यम्"
-    TASYA_IDAM = "तस्य इदम्"
+    TASYA_APATYAM = "तस्य अपत्यम् 6 1"
+    TASYA_IDAM = "तस्य इदम् 6 1"
 
 @dataclass
 class Khanda(ABC):

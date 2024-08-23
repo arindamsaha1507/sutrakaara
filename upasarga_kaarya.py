@@ -3,6 +3,8 @@
 from dataclasses import dataclass, field
 from utils import Prakriya
 import sutra.sutra_list as sutra_list
+import sutra.adhyaaya_four as adhyaaya_four
+import sutra.adhyaaya_two as adhyaaya_two
 
 import it_prakarana
 
@@ -35,7 +37,7 @@ class UpasargaKaarya:
         if aupadeshika:
             aupadeshika.aupadeshika = False
 
-        sutra = sutra_list.SutraFiveOneTwo()
+        sutra = adhyaaya_four.SutraFourOneTwo()
         sutra.call(self.prakriya, 1, 1)
         sutra = sutra_list.SutraOneThreeTwo()
         sutra(self.prakriya)
@@ -46,12 +48,11 @@ class UpasargaKaarya:
         if aupadeshika:
             aupadeshika.aupadeshika = False
 
-        sutra = sutra_list.SutraTwoFourEightyTwo()
-        sutra(self.prakriya)
-
         sutra = sutra_list.SutraOneFourFourteen()
         sutra(self.prakriya)
 
+        sutra = adhyaaya_two.SutraTwoFourEightyTwo()
+        sutra(self.prakriya)
 
     def execute(self):
         """Execute the Sutras"""

@@ -89,8 +89,8 @@ def main():
     # CreatePrakriya.add_dhaatu(pp, 563)
     # CreatePrakriya.add_unaadi(pp, "कीकच्")
 
-    CreatePrakriya.add_praatipadika(pp, "नर")
-    CreatePrakriya.add_taddhita(pp, "अण्", Taddhitaartha.TASYA_IDAM)
+    CreatePrakriya.add_praatipadika(pp, "वल्मीक")
+    CreatePrakriya.add_taddhita(pp, "इञ्", Taddhitaartha.TASYA_APATYAM)
 
     # CreatePrakriya.add_dhaatu(pp, 1673)
     # CreatePrakriya.add_unaadi(pp, "इन्")

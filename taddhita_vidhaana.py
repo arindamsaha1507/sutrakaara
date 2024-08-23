@@ -3,7 +3,9 @@
 from dataclasses import dataclass, field
 
 from utils import Prakriya, Taddhitaartha, KhandaType
+import sutra.adhyaaya_two as adhyaaya_two
 import sutra.adhyaaya_four as adhyaaya_four
+import sutra.sutra_list as sutra_list
 
 import it_prakarana
 
@@ -20,10 +22,20 @@ class TaddhitaVidhaana:
     def __post_init__(self):
 
         self.sutra_list = [
-
             adhyaaya_four.SutraFourOneEightyThree(),
-
+            adhyaaya_four.SutraFourOneNinetyFive(),
         ]
+
+        vibhakti = int(self.artha.value.split(" ")[-2])
+        vachana = int(self.artha.value.split(" ")[-1])
+
+        sutra = adhyaaya_four.SutraFourOneTwo()
+        sutra.call(self.prakriya, vibhakti, vachana)
+
+        it_prakarana.ItSanjna(self.prakriya)
+
+        sutra = sutra_list.SutraOneFourFourteen()
+        sutra(self.prakriya)
 
         self.execute()
 
@@ -35,6 +47,11 @@ class TaddhitaVidhaana:
         if aupadeshika:
             aupadeshika.aupadeshika = False
 
+        sutra = adhyaaya_two.SutraTwoFourSeventyOne()
+        sutra(self.prakriya)
+
+        # print(self.prakriya)
+
     def execute(self):
         """Execute the Sutras"""
 
@@ -42,4 +59,5 @@ class TaddhitaVidhaana:
             sutra.call(self.prakriya, self.taddhita, self.artha)
 
         if KhandaType.TADDHITA not in self.prakriya.vartamaana_sthiti[-1].typ:
-            raise ValueError("Krt not added to the Prakriya")
+            print(self.prakriya)
+            raise ValueError("Taddhita not added to the Prakriya")
