@@ -318,6 +318,48 @@ class SutraOneTwoFortyFive(Sutra):
 
 
 @dataclass
+class SutraOneTwoFortySix(Sutra):
+    """कृत्तद्धितसमासाश्च १.२.४६"""
+
+    def __post_init__(self):
+        self.define("कृत्तद्धितसमासाश्च १.२.४६")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+
+        khanda = prakriya.vartamaana_sthiti[-1]
+
+        if KhandaType.KRT in khanda.typ:
+            return True
+
+        if KhandaType.TADDHITA in khanda.typ:
+            return True
+
+        count = len(
+            list(
+                [
+                    khanda
+                    for khanda in prakriya.vartamaana_sthiti
+                    if KhandaType.SUP in khanda.typ
+                ]
+            )
+        )
+
+        if count > 1 and KhandaType.SUP in khanda.typ:
+            return True
+
+        return False
+
+    def apply(self, prakriya: Prakriya):
+
+        for khanda in prakriya.vartamaana_sthiti:
+            if KhandaType.PRAATIPADIKA not in khanda.typ:
+                khanda.typ.append(KhandaType.PRAATIPADIKA)
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "प्रातिपदिकसंज्ञा")
+
+
+@dataclass
 class SutraOneThreeOne(Sutra):
     """भूवादयो धातवः १.३.१"""
 

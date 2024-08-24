@@ -16,14 +16,9 @@ class SutraTwoFourSeventyOne(Sutra):
     @staticmethod
     def check(prakriya: Prakriya):
 
-        khanda = SutraUtils.get_khanda(prakriya, KhandaType.SUP)
+        khanda = SutraUtils.get_khanda(prakriya, [KhandaType.SUP, KhandaType.PRAATIPADIKA])
 
         if not khanda:
-            return False
-
-        khanda_index = khanda[-1][0]
-
-        if khanda_index == len(prakriya.vartamaana_sthiti) - 1:
             return False
 
         return True
@@ -33,7 +28,7 @@ class SutraTwoFourSeventyOne(Sutra):
         remove_list = [False for _ in prakriya.vartamaana_sthiti]
 
         for idx, khanda in enumerate(prakriya.vartamaana_sthiti):
-            if KhandaType.SUP in khanda.typ:
+            if KhandaType.SUP in khanda.typ and KhandaType.PRAATIPADIKA in khanda.typ:
                 remove_list[idx] = True
 
         prakriya.vartamaana_sthiti = [

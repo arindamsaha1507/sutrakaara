@@ -47,6 +47,9 @@ class TaddhitaVidhaana:
         if aupadeshika:
             aupadeshika.aupadeshika = False
 
+        sutra = sutra_list.SutraOneTwoFortySix()
+        sutra(self.prakriya)
+
         sutra = adhyaaya_two.SutraTwoFourSeventyOne()
         sutra(self.prakriya)
 
