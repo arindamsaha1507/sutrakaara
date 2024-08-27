@@ -714,7 +714,8 @@ class SutraOneFourFourteen(Sutra):
         khanda = [
             khanda
             for khanda in prakriya.vartamaana_sthiti
-            if KhandaType.SUP in khanda.typ or KhandaType.TIN in khanda.typ
+            if (KhandaType.SUP in khanda.typ or KhandaType.TIN in khanda.typ)
+            and KhandaType.PADA not in khanda.typ
         ]
 
         if not khanda:
@@ -726,13 +727,15 @@ class SutraOneFourFourteen(Sutra):
         khanda = [
             khanda
             for khanda in prakriya.vartamaana_sthiti
-            if KhandaType.SUP in khanda.typ or KhandaType.TIN in khanda.typ
+            if (KhandaType.SUP in khanda.typ or KhandaType.TIN in khanda.typ)
+            and KhandaType.PADA not in khanda.typ
         ][0]
 
         khanda_index = [
             idx
             for idx, khanda in enumerate(prakriya.vartamaana_sthiti)
-            if KhandaType.SUP in khanda.typ or KhandaType.TIN in khanda.typ
+            if (KhandaType.SUP in khanda.typ or KhandaType.TIN in khanda.typ)
+            and KhandaType.PADA not in khanda.typ
         ][0]
 
         padaadi = khanda.mukhya
@@ -741,7 +744,10 @@ class SutraOneFourFourteen(Sutra):
 
             prakriya.vartamaana_sthiti[khanda_index].typ.append(KhandaType.PADA)
 
-            if padaadi.roopa == prakriya.vartamaana_sthiti[khanda_index].roopa:
+            if (
+                padaadi.roopa == prakriya.vartamaana_sthiti[khanda_index].roopa
+                and KhandaType.PADA in prakriya.vartamaana_sthiti[khanda_index - 1].typ
+            ):
                 break
 
             khanda_index -= 1
@@ -1105,7 +1111,6 @@ class SutraSixOneSixtySeven(Sutra):
 
         if khanda.roopa != "वि":
             return False
-
 
         return True
 
@@ -1495,13 +1500,13 @@ class SutraSixFourSixtyFour(Sutra):
             and KhandaType.IDAAGAMA not in pratyaya[0][1].typ
         ):
             return False
-        
+
         vinyaasa = get_vinyaasa(pratyaya[0][1].roopa)
         if vinyaasa[0] not in svara:
             return False
 
         return True
-    
+
     def apply(self, prakriya: Prakriya):
 
         khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]

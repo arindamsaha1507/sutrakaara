@@ -99,6 +99,15 @@ class Krdartha(Enum):
     DHAATUSAMBANDHI = "धातुसम्बन्धी"
 
 
+class SamaasaType(Enum):
+    """Enum to represent the SamaasaType"""
+
+    AVYAYIVAAVA = "अव्ययीवाव"
+    TATPURUSHA = "तत्पुरुष"
+    BAHUVRIHI = "बहुव्रीहि"
+    DWANDWA = "द्वन्द्व"
+
+
 class Taddhitaartha(Enum):
     """Enum to represent the Taddhitaartha"""
 

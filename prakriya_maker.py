@@ -2,7 +2,7 @@
 
 import yaml
 
-from utils import Prakriya, Krdartha, Taddhitaartha
+from utils import Prakriya, Krdartha, Taddhitaartha, SamaasaType
 
 from anga_kaarya import AngaKaarya
 from dhaatu_prakarana import DhaatuSanjna
@@ -11,6 +11,7 @@ from krt_vidhaana import KrtVidhaana
 from praakrita_kaarya import PraakritaKaaraya
 from praatipadika import Praatipadika
 from sandhi_kaarya import SandhiKaarya
+from samaasa_vidhaana import SamaasaVidhaana
 from taddhita_vidhaana import TaddhitaVidhaana
 from tripaadi_kaarya import TripaadiKaarya
 from upasarga_kaarya import UpasargaKaarya
@@ -90,15 +91,22 @@ class CreatePrakriya:
         SandhiKaarya(pp)
         TripaadiKaarya(pp)
 
+    @staticmethod
+    def add_samasa(pp: Prakriya, praatipadikas: tuple[str, str], samaasa_type: SamaasaType):
+        """Add a Samasa to the Prakriya"""
+
+        SamaasaVidhaana(pp, praatipadikas, samaasa_type)
+
 
 def main():
     """Main function"""
 
     pp = Prakriya()
 
-    CreatePrakriya.add_dhaatu(pp, 1223)
-    CreatePrakriya.add_krt(pp, "क्विप्", Krdartha.ANAADI, "वाच्", 2, 1)
+    CreatePrakriya.add_samasa(pp, ("तपस्", "स्वाध्याय"), SamaasaType.DWANDWA)
 
+    # CreatePrakriya.add_dhaatu(pp, 1223)
+    # CreatePrakriya.add_krt(pp, "क्विप्", Krdartha.ANAADI, "वाच्", 2, 1)
 
     # CreatePrakriya.add_dhaatu(pp, 1250)
     # CreatePrakriya.add_krt(pp, "क", Krdartha.ANAADI, "नार", 2, 1)
