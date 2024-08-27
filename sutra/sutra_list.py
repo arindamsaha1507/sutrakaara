@@ -1103,12 +1103,9 @@ class SutraSixOneSixtySeven(Sutra):
 
         khanda = khanda[0]
 
-        varnas = get_vinyaasa(khanda.roopa)
-        if varnas[0] != "व्":
+        if khanda.roopa != "वि":
             return False
 
-        if len(varnas) != 1:
-            return False
 
         return True
 
@@ -1122,11 +1119,7 @@ class SutraSixOneSixtySeven(Sutra):
 
         khanda.roopa = " "
 
-        # sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
-        # sthitis[khanda_index] = khanda
-
-        self.push(prakriya, prakriya.vartamaana_sthiti, "अपृक्तवकारस्य लोपः")
-        # self.push(prakriya, sthitis, "अपृक्तवकारस्य लोपः")
+        self.push(prakriya, prakriya.vartamaana_sthiti, "अपृक्तविशब्दस्य लोपः")
 
 
 @dataclass

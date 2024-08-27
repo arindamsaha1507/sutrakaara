@@ -158,6 +158,21 @@ class Prakriya:
         ss = " ".join([str(khanda) for khanda in self.vartamaana_sthiti])
         return get_vinyaasa(ss)
 
+    def get_khanda_for_index(self, index: int):
+        """Get the Khanda for the given index"""
+
+        total_length = 0
+        required_khanda = None
+
+        for khanda in self.vartamaana_sthiti:
+            vinyaasa = get_vinyaasa(khanda.roopa)
+            if index < total_length + len(vinyaasa):
+                required_khanda = khanda
+                break
+            total_length += len(vinyaasa) + 1
+
+        return required_khanda
+
     def replace_index(self, index: int, replacement: str):
         """Replace the letter at the given index with the replacement"""
 

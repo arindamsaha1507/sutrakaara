@@ -96,9 +96,12 @@ def main():
 
     pp = Prakriya()
 
-    CreatePrakriya.add_dhaatu(pp, 1250)
-    CreatePrakriya.add_krt(pp, "क", Krdartha.ANAADI, "नार", 2, 1)
+    CreatePrakriya.add_dhaatu(pp, 1223)
+    CreatePrakriya.add_krt(pp, "क्विप्", Krdartha.ANAADI, "वाच्", 2, 1)
 
+
+    # CreatePrakriya.add_dhaatu(pp, 1250)
+    # CreatePrakriya.add_krt(pp, "क", Krdartha.ANAADI, "नार", 2, 1)
 
     # CreatePrakriya.add_dhaatu(pp, 0)
     # CreatePrakriya.add_krt(pp, "अण्", Krdartha.ANAADI, "अग्नि", 2, 1)

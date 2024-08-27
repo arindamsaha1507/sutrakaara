@@ -186,7 +186,7 @@ class SutraThreeTwoThree(Sutra):
             return False
 
         return True
-    
+
     def apply(self, prakriya: Prakriya, artha: Krdartha, pratyaya: str):
         # pylint: disable=arguments-differ
 
@@ -204,6 +204,65 @@ class SutraThreeTwoThree(Sutra):
         if self.check(praakriya, artha, pratyaya):
             self.apply(praakriya, artha, pratyaya)
 
+
+@dataclass
+class SutraThreeTwoSixtyOne(Sutra):
+    """सत्सूद्विषद्रुहदुहयुजविदभिदच्छिदजिनीराजामुपसर्गेऽपि क्विप् ३.२.६१"""
+
+    def __post_init__(self):
+        self.define("सत्सूद्विषद्रुहदुहयुजविदभिदच्छिदजिनीराजामुपसर्गेऽपि क्विप् ३.२.६१")
+
+    @staticmethod
+    def check(prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        if not (pratyaya == "क्विप्" and artha == Krdartha.ANAADI):
+            return False
+
+        dhaatu = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
+
+        if not dhaatu:
+            return False
+
+        if len(dhaatu) != 1:
+            return False
+
+        dhaatu = dhaatu[0][1]
+
+        if dhaatu.roopa not in [
+            "सन्",
+            "सू",
+            "द्विष्",
+            "द्रुह्",
+            "दुह्",
+            "युज्",
+            "विद्",
+            "भिद्",
+            "च्छिद्",
+            "जि",
+            "नी",
+            "राज्",
+        ]:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        dhaatu = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]
+        dhaatu_index = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][0]
+
+        krt = Krt(moola=pratyaya, mukhya=dhaatu)
+        prakriya.vartamaana_sthiti.insert(dhaatu_index + 1, krt)
+        self.push(
+            prakriya, prakriya.vartamaana_sthiti, f"{artha.value}-अर्थे {pratyaya} प्रत्ययः"
+        )
+
+    def call(self, praakriya: Prakriya, pratyaya: str, artha: Krdartha):
+        """Call the Sutra"""
+        if self.check(praakriya, artha, pratyaya):
+            self.apply(praakriya, artha, pratyaya)
 
 @dataclass
 class SutraThreeThreeEighteen(Sutra):

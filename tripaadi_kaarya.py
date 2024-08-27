@@ -15,6 +15,8 @@ class TripaadiKaarya:
     def __post_init__(self):
 
         self.sutra_list = [
+            sutra_list.SutraEightTwoThirty(),
+            sutra_list.SutraEightTwoThirtyNine(),
             sutra_list.SutraEightThreeTwentyFour(),
         ]
 

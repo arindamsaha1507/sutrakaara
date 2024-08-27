@@ -25,11 +25,10 @@ class KrtVidhaana:
     def __post_init__(self):
 
         self.sutra_list = [
-            
             # Anaadyarthe
             adhyaaya_three.SutraThreeTwoOne(),
             adhyaaya_three.SutraThreeTwoThree(),
-
+            adhyaaya_three.SutraThreeTwoSixtyOne(),
             # Bhootaarthe
             adhyaaya_three.SutraThreeTwoOneHundredTwo(),
             # Bhaavaarthe
@@ -45,7 +44,7 @@ class KrtVidhaana:
                 raise ValueError("Vibhakti is required for Anaadi Krt")
             if self.vachana is None:
                 raise ValueError("Vachana is required for Anaadi Krt")
-            
+
             if self.vibhakti == 2:
                 self.vibhakti = 6
 
@@ -74,14 +73,11 @@ class KrtVidhaana:
         if aupadeshika:
             aupadeshika.aupadeshika = False
 
-
         sutra = sutra_list.SutraOneTwoFortySix()
         sutra(self.prakriya)
 
-
         sutra = adhyaaya_two.SutraTwoFourSeventyOne()
         sutra(self.prakriya)
-
 
     def execute(self):
         """Execute the Sutras"""

@@ -59,7 +59,7 @@ class UnaadiTwoFiftyEight(Unaadi):
             if KhandaType.DHAATU in khanda.typ
         ][0]
 
-        pratyaya = Krt(moola="क्विप्", mukhya=khanda, uchchaarana=[2])
+        pratyaya = Krt(moola="क्विप्", mukhya=khanda)
         vv = get_vinyaasa(pratyaya.mukhya.roopa)
         for i, v in enumerate(vv):
             if v in svara:
@@ -77,11 +77,11 @@ class UnaadiTwoFiftyEight(Unaadi):
 
         self.push(prakriya, sthitis, "क्विप्प्रत्ययादेशः दीर्घः असंप्रसारणं च")
 
-        pratyaya.remove_uchchaarana()
+        # pratyaya.remove_uchchaarana()
 
-        ucchaarana = get_vinyaasa(pratyaya.moola)[pratyaya.uchchaarana[0]]
+        # ucchaarana = get_vinyaasa(pratyaya.moola)[pratyaya.uchchaarana[0]]
 
-        prakriya.add_to_prakriya(sthitis, "-", f"{ucchaarana}कार उच्चारणार्थम्")
+        # prakriya.add_to_prakriya(sthitis, "-", f"{ucchaarana}कार उच्चारणार्थम्")
 
     def call(self, prakriya: Prakriya, pratyaya: str):
         """Call the Sutra"""
