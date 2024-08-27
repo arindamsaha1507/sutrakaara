@@ -47,10 +47,20 @@ class CreatePrakriya:
         UpasargaKaarya(pp, upasarga)
 
     @staticmethod
-    def add_krt(pp: Prakriya, krt: str, artha: Krdartha):
+    def add_krt(
+        pp: Prakriya,
+        krt: str,
+        artha: Krdartha,
+        upapada: str = None,
+        vibhakti: int = None,
+        vachana: int = None,
+    ):
         """Add a Krt to the Prakriya"""
 
-        KrtVidhaana(pp, krt, artha)
+        if artha == Krdartha.ANAADI:
+            KrtVidhaana(pp, krt, artha, upapada, vibhakti, vachana)
+        else:
+            KrtVidhaana(pp, krt, artha)
         AngaKaarya(pp)
         SandhiKaarya(pp)
         TripaadiKaarya(pp)
@@ -86,11 +96,14 @@ def main():
 
     pp = Prakriya()
 
+    CreatePrakriya.add_dhaatu(pp, 0)
+    CreatePrakriya.add_krt(pp, "अण्", Krdartha.ANAADI, "अग्नि", 2, 1)
+
     # CreatePrakriya.add_dhaatu(pp, 563)
     # CreatePrakriya.add_unaadi(pp, "कीकच्")
 
-    CreatePrakriya.add_praatipadika(pp, "वल्मीक")
-    CreatePrakriya.add_taddhita(pp, "इञ्", Taddhitaartha.TASYA_APATYAM)
+    # CreatePrakriya.add_praatipadika(pp, "वल्मीक")
+    # CreatePrakriya.add_taddhita(pp, "इञ्", Taddhitaartha.TASYA_APATYAM)
 
     # CreatePrakriya.add_dhaatu(pp, 1673)
     # CreatePrakriya.add_unaadi(pp, "इन्")

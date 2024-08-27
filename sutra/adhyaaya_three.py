@@ -21,7 +21,9 @@ class SutraThreeOneTwentyFive(Sutra):
 
     @staticmethod
     def check(prakriya: Prakriya):
-        khanda = SutraUtils.get_khanda(prakriya, [KhandaType.DHAATU, KhandaType.PRAATIPADIKA])
+        khanda = SutraUtils.get_khanda(
+            prakriya, [KhandaType.DHAATU, KhandaType.PRAATIPADIKA]
+        )
         if not khanda:
             return False
         if len(khanda) != 1:
@@ -30,20 +32,25 @@ class SutraThreeOneTwentyFive(Sutra):
 
         if KhandaType.PRAATIPADIKA in khanda.typ:
             raise NotImplementedError("Praatipadika not implemented")
-        
+
         if Gana.CHURAADI not in khanda.typ:
             return False
 
         return True
-    
+
     def apply(self, prakriya: Prakriya):
-        khanda = SutraUtils.get_khanda(prakriya, [KhandaType.DHAATU, KhandaType.PRAATIPADIKA])[0][1]
+        khanda = SutraUtils.get_khanda(
+            prakriya, [KhandaType.DHAATU, KhandaType.PRAATIPADIKA]
+        )[0][1]
 
         pratyaya = Sanaadi(moola="णिच्", mukhya=khanda)
 
         prakriya.vartamaana_sthiti.append(pratyaya)
 
-        self.push(prakriya, prakriya.vartamaana_sthiti, f"{khanda.roopa} इत्यस्य अनुदात्तोपदेशः")
+        self.push(
+            prakriya, prakriya.vartamaana_sthiti, f"{khanda.roopa} इत्यस्य अनुदात्तोपदेशः"
+        )
+
 
 @dataclass
 class SutraThreeTwoOneHundredTwo(Sutra):
@@ -66,10 +73,10 @@ class SutraThreeTwoOneHundredTwo(Sutra):
             return False
 
         return True
-    
+
     def apply(self, prakriya: Prakriya, artha: Krdartha, pratyaya: str):
         # pylint: disable=arguments-differ
-            
+
         khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]
         khanda_index = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][0]
 
@@ -83,6 +90,59 @@ class SutraThreeTwoOneHundredTwo(Sutra):
         """Call the Sutra"""
         if self.check(praakriya, artha, pratyaya):
             self.apply(praakriya, artha, pratyaya)
+
+
+@dataclass
+class SutraThreeTwoOne(Sutra):
+    """कर्मण्यण् ३.२.१"""
+
+    def __post_init__(self):
+        self.define("कर्मण्यण् ३.२.१")
+
+    @staticmethod
+    def check(prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        if not (pratyaya == "अण्" and artha == Krdartha.ANAADI):
+            return False
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
+        if not khanda:
+            return False
+
+        upapada = SutraUtils.get_khanda(prakriya, KhandaType.PRAATIPADIKA)
+        if not upapada:
+            return False
+
+        sup = SutraUtils.get_khanda(prakriya, KhandaType.SUP)
+        if not sup:
+            return False
+
+        if sup[0][1].moola not in ["ङस्", "ओस्", "आम्"]:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya, artha: Krdartha, pratyaya: str):
+        # pylint: disable=arguments-differ
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]
+        khanda_index = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][0]
+
+        krt = Krt(moola=pratyaya, mukhya=khanda)
+        sthitis = copy.deepcopy(prakriya.vartamaana_sthiti)
+        sthitis.insert(khanda_index + 1, krt)
+
+        self.push(prakriya, sthitis, f"{artha.value}-अर्थे {pratyaya} प्रत्ययः")
+
+    def call(self, praakriya: Prakriya, pratyaya: str, artha: Krdartha):
+        """Call the Sutra"""
+        if self.check(praakriya, artha, pratyaya):
+            self.apply(praakriya, artha, pratyaya)
+
 
 @dataclass
 class SutraThreeThreeEighteen(Sutra):
@@ -318,7 +378,7 @@ class SutraThreeFourOneHundredFourteen(Sutra):
 
         if SutraThreeFourOneHundredThirteen.check(prakriya):
             return False
-        
+
         khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
 
         if not khanda:
