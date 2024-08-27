@@ -501,6 +501,11 @@ class SutraOneThreeThree(Sutra):
         if vinyaasa[-1] not in vyanjana:
             return False
 
+        sutra = SutraOneThreeFour()
+        sutra(prakriya)
+        if sutra.check(prakriya):
+            return False
+
         return True
 
     def apply(self, prakriya: Prakriya):
@@ -513,6 +518,37 @@ class SutraOneThreeThree(Sutra):
         self.push(prakriya, prakriya.vartamaana_sthiti, f"{vinyaasa[-1][0]}कार इत्")
 
         SutraOneThreeNine()(prakriya, khanda, khanda_index, indices)
+
+
+@dataclass
+class SutraOneThreeFour(Sutra):
+    """न विभक्तौ तुस्माः १.३.४"""
+
+    def __post_init__(self):
+        self.define("न विभक्तौ तुस्माः १.३.४")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+        khanda = UtilFunctions.get_aupadeshika_khanda(prakriya, return_index=False)
+        if not khanda:
+            return False
+
+        if KhandaType.VIBHAKTI not in khanda.typ:
+            return False
+
+        vinyaasa = get_vinyaasa(khanda.roopa)
+
+        if vinyaasa[-1] not in ["स्", "म्", "त्", "थ्", "द्", "ध्", "न्"]:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya):
+
+        khanda = UtilFunctions.get_aupadeshika_khanda(prakriya, return_index=False)
+        vinyaasa = get_vinyaasa(khanda.roopa)
+        varna = vinyaasa[-1]
+        self.push(prakriya, prakriya.vartamaana_sthiti, f"{varna[0]}कारो न इट्")
 
 
 @dataclass
