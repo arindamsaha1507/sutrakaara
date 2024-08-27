@@ -1466,6 +1466,60 @@ class SutraSixFourFiftyOne(Sutra):
 
 
 @dataclass
+class SutraSixFourSixtyFour(Sutra):
+    """आतो लोप इटि च ६.४.६४"""
+
+    def __post_init__(self):
+        self.define("आतो लोप इटि च ६.४.६४")
+
+    @staticmethod
+    def check(prakriya: Prakriya):
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)
+
+        if not khanda:
+            return False
+
+        if len(khanda) != 1:
+            return False
+
+        khanda = khanda[0][1]
+
+        if get_vinyaasa(khanda.roopa)[-1] != "आ":
+            return False
+
+        pratyaya = SutraUtils.get_khanda(prakriya, KhandaType.PRATYAAYA)
+
+        if not pratyaya:
+            return False
+
+        if KhandaType.AARDHADHAATUKA not in pratyaya[0][1].typ:
+            return False
+
+        if (
+            "क्" not in pratyaya[0][1].it
+            and "ङ्" not in pratyaya[0][1].it
+            and KhandaType.IDAAGAMA not in pratyaya[0][1].typ
+        ):
+            return False
+        
+        vinyaasa = get_vinyaasa(pratyaya[0][1].roopa)
+        if vinyaasa[0] not in svara:
+            return False
+
+        return True
+    
+    def apply(self, prakriya: Prakriya):
+
+        khanda = SutraUtils.get_khanda(prakriya, KhandaType.DHAATU)[0][1]
+
+        vinyaasa = get_vinyaasa(khanda.roopa)
+        khanda.roopa = get_shabda(vinyaasa[:-1])
+
+        self.push(prakriya, prakriya.vartamaana_sthiti, "आकारलोपः")
+
+
+@dataclass
 class SutraSixFourOneHundredFortyThree(Sutra):
     """टेः ६.४.१४३"""
 

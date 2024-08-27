@@ -80,6 +80,7 @@ class KhandaType(Enum):
     EKAVACHANA = "एकवचन"
     DVIVACHANA = "द्विवचन"
     BAHUVACHANA = "बहुवचन"
+    IDAAGAMA = "इडागम"
 
 class Krdartha(Enum):
     """Enum to represent the Krdartha"""

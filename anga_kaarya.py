@@ -28,6 +28,7 @@ class AngaKaarya:
             sutra_list.SutraSevenTwoOneHundredSixteen(),
             sutra_list.SutraSevenTwoOneHundredSeventeen(),
 
+            sutra_list.SutraSixFourSixtyFour(),
             sutra_list.SutraSixFourOneHundredFortyThree(),
             sutra_list.SutraSixFourOneHundredFortyEight(),
 

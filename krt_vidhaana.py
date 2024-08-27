@@ -28,6 +28,7 @@ class KrtVidhaana:
             
             # Anaadyarthe
             adhyaaya_three.SutraThreeTwoOne(),
+            adhyaaya_three.SutraThreeTwoThree(),
 
             # Bhootaarthe
             adhyaaya_three.SutraThreeTwoOneHundredTwo(),
