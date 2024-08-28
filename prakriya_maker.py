@@ -96,6 +96,7 @@ class CreatePrakriya:
         """Add a Samasa to the Prakriya"""
 
         SamaasaVidhaana(pp, praatipadikas, samaasa_type)
+        TripaadiKaarya(pp)
 
 
 def main():

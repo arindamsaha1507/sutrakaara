@@ -16,7 +16,9 @@ class TripaadiKaarya:
 
         self.sutra_list = [
             sutra_list.SutraEightTwoThirty(),
+            sutra_list.SutraEightTwoSixtySix(),
             sutra_list.SutraEightTwoThirtyNine(),
+            sutra_list.SutraEightThreeFifteen(),
             sutra_list.SutraEightThreeTwentyFour(),
         ]
 

@@ -118,6 +118,86 @@ class SutraEightTwoThirtyNine(Sutra):
 
 
 @dataclass
+class SutraEightTwoSixtySix(Sutra):
+    """ससजुषो रुः ८.२.६६"""
+
+    def __post_init__(self):
+        self.define("ससजुषो रुः ८.२.६६")
+
+    @staticmethod
+    def check(prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        ss = prakriya.string
+        aa = ss[indices[0]]
+
+        khanda = prakriya.get_khanda_for_index(indices[0])
+
+        if KhandaType.PADA not in khanda.typ:
+            return False
+
+        if khanda.roopa != "सजुष्" and aa != "स्":
+            return False
+
+        vinyaasa = get_vinyaasa(khanda.roopa)
+        if vinyaasa[-1] != aa:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        khanda = prakriya.get_khanda_for_index(indices[0])
+        khanda.typ.append(KhandaType.RUTVA)
+
+        prakriya.replace_index(indices[0], "र्")
+        self.push(prakriya, prakriya.vartamaana_sthiti, "रुत्वम्")
+
+    def call(self, prakriya: Prakriya, indices: tuple[int, int]):
+        """Call the Sutra"""
+        if self.check(prakriya, indices):
+            self.apply(prakriya, indices)
+
+
+@dataclass
+class SutraEightThreeFifteen(Sutra):
+    """खरवसानयोर्विसर्जनीयः ८.३.१५"""
+
+    def __post_init__(self):
+        self.define("खरवसानयोर्विसर्जनीयः ८.३.१५")
+
+    @staticmethod
+    def check(prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        ss = prakriya.string
+        aa = ss[indices[0]]
+        bb = ss[indices[1]]
+
+        if aa != "र्":
+            return False
+
+        khanda = prakriya.get_khanda_for_index(indices[0])
+
+        if bb not in expand_pratyahaara("खर्") and KhandaType.PADA not in khanda.typ:
+            return False
+
+        return True
+
+    def apply(self, prakriya: Prakriya, indices: tuple[int, int]):
+        # pylint: disable=arguments-differ
+
+        prakriya.replace_index(indices[0], "ः")
+        self.push(prakriya, prakriya.vartamaana_sthiti, "विसर्गविधानम्")
+
+    def call(self, prakriya: Prakriya, indices: tuple[int, int]):
+        """Call the Sutra"""
+        if self.check(prakriya, indices):
+            self.apply(prakriya, indices)
+
+
+@dataclass
 class SutraEightThreeTwentyFour(Sutra):
     """नश्चापदान्तस्य झलि ८.३.२४"""
 
