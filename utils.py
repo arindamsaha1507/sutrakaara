@@ -82,6 +82,13 @@ class KhandaType(Enum):
     BAHUVACHANA = "बहुवचन"
     IDAAGAMA = "इडागम"
     RUTVA = "रुत्व"
+    SAMAASA = "समास"
+    AVYAYIBHAAVA = "अव्ययीभाव"
+    TATPURUSHA = "तत्पुरुष"
+    BAHUVRIHI = "बहुव्रीहि"
+    DWANDWA = "द्वन्द्व"
+    KARMADHAARAYA = "कर्मधारय"
+    DVIGU = "द्विगु"
 
 class Krdartha(Enum):
     """Enum to represent the Krdartha"""
@@ -107,6 +114,7 @@ class SamaasaType(Enum):
     TATPURUSHA = "तत्पुरुष"
     BAHUVRIHI = "बहुव्रीहि"
     DWANDWA = "द्वन्द्व"
+    KARMADHAARAYA = "कर्मधारय"
 
 
 class Taddhitaartha(Enum):

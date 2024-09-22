@@ -16,10 +16,13 @@ class TripaadiKaarya:
 
         self.sutra_list = [
             sutra_list.SutraEightTwoThirty(),
+            sutra_list.SutraEightTwoTwentyThree(),
             sutra_list.SutraEightTwoSixtySix(),
             sutra_list.SutraEightTwoThirtyNine(),
             sutra_list.SutraEightThreeFifteen(),
+            sutra_list.SutraEightThreeTwentyThree(),
             sutra_list.SutraEightThreeTwentyFour(),
+            sutra_list.SutraEightFourFiftyEight(),
         ]
 
         self.execute()
@@ -27,20 +30,23 @@ class TripaadiKaarya:
     def execute(self):
         """Execute the Sutras"""
 
-        ss = self.prakriya.string
+        for sutra in self.sutra_list:
 
-        for ii, varna in enumerate(ss):
+            ss = self.prakriya.string
 
-            if varna == " ":
-                continue
+            print(f"Executing {sutra} with {ss}")
 
-            if ii == len(ss) - 1:
-                continue
+            for ii, varna in enumerate(ss):
 
-            jj = ii + 1
+                if varna == " ":
+                    continue
 
-            if ss[jj] == " ":
-                jj += 1
+                if ii == len(ss) - 1:
+                    continue
 
-            for sutra in self.sutra_list:
+                jj = ii + 1
+
+                while ss[jj] == " " and jj < len(ss) - 1:
+                    jj += 1
+
                 sutra.call(self.prakriya, (ii, jj))

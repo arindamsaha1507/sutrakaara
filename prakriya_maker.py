@@ -104,7 +104,8 @@ def main():
 
     pp = Prakriya()
 
-    CreatePrakriya.add_samasa(pp, ("तपस्", "स्वाध्याय"), SamaasaType.DWANDWA)
+    CreatePrakriya.add_samasa(pp, ("पुम्स्", "गो"), SamaasaType.KARMADHAARAYA)
+    # CreatePrakriya.add_samasa(pp, ("तपस्", "स्वाध्याय"), SamaasaType.DWANDWA)
 
     # CreatePrakriya.add_dhaatu(pp, 1223)
     # CreatePrakriya.add_krt(pp, "क्विप्", Krdartha.ANAADI, "वाच्", 2, 1)
