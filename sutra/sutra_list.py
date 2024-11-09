@@ -1161,6 +1161,8 @@ class SutraSixOneSeventySeven(Sutra):
             replacement = "र्"
         elif aa == "ऌ":
             replacement = "ल्"
+        else:
+            raise NotImplementedError("This is not implemented yet")
 
         prakriya.replace_index(indices[0], replacement)
 
@@ -1210,6 +1212,8 @@ class SutraSixOneSeventyEight(Sutra):
         elif aa == "औ":
             replacement = "आ"
             insertion = "व्"
+        else:
+            raise NotImplementedError("This is not implemented yet")
 
         prakriya.replace_index(indices[0], replacement)
         prakriya.insert_index(indices[0] + 1, insertion)
@@ -1268,6 +1272,8 @@ class SutraSixOneOneHundredOne(Sutra):
             replacement = "ऊ"
         elif aa in ["ऋ", "ॠ"]:
             replacement = "ॠ"
+        else:
+            raise NotImplementedError("This is not implemented yet")
 
         prakriya.replace_index(indices[0], replacement)
         prakriya.replace_index(indices[1], " ")
@@ -1547,12 +1553,6 @@ class SutraSixFourOneHundredFortyThree(Sutra):
         return True
 
     def apply(self, prakriya: Prakriya):
-
-        khanda = [
-            khanda
-            for khanda in prakriya.vartamaana_sthiti
-            if KhandaType.PRATYAAYA in khanda.typ
-        ][0]
 
         khanda_index = [
             idx

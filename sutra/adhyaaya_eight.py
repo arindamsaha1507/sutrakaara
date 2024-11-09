@@ -54,6 +54,8 @@ class SutraEightTwoThirty(Sutra):
             replacement = "घ्"
         elif aa == "ञ्":
             replacement = "ङ्"
+        else:
+            raise NotImplementedError("This should not happen")
 
         prakriya.replace_index(indices[0], replacement)
         self.push(prakriya, prakriya.vartamaana_sthiti, "कुत्वम्")
@@ -156,6 +158,8 @@ class SutraEightTwoThirtyNine(Sutra):
             replacement = "द्"
         elif aa in ["प्", "फ्", "ब्", "भ्"]:
             replacement = "ब्"
+        else:
+            raise NotImplementedError("This should not happen")
 
         prakriya.replace_index(indices[0], replacement)
         self.push(prakriya, prakriya.vartamaana_sthiti, "जश्त्वम्")
@@ -374,6 +378,8 @@ class SutraEightFourFiftyEight(Sutra):
             replacement = "म्"
         elif bb in ["य्", "र्", "ल्", "व्"]:
             replacement = "ं"
+        else:
+            raise NotImplementedError("This should not happen")
 
         prakriya.replace_index(indices[0], replacement)
         self.push(prakriya, prakriya.vartamaana_sthiti, "परसवर्णः")
